@@ -32,7 +32,7 @@ public class Hello {
    public static void main(String[] args) {
 
       Scanner scanner = new Scanner(System.in);
-      System.out.println("Enter your base sallary");
+      System.out.println("Enter your base salary");
       double baseSalary = scanner.nextDouble();
       System.out.println("Enter your allowance");
       double allowance = scanner.nextDouble();
@@ -45,6 +45,7 @@ public class Hello {
       System.out.println("Base Salary:" + baseSalary);
       System.out.println("Allowance:" + allowance);
       System.out.println("Gross Salary:" + grossSalary);
+      System.out.println("Tax Applied:" + totalTax);
       System.out.println("Net Salary:" + netSalary);
 
       scanner.close();
