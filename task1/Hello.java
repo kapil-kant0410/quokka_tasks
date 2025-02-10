@@ -26,27 +26,27 @@
 // Tax Applied: 5200.0  
 // Net Salary: 46800.0
 
-  import java.util.*;
+import java.util.*;
 
-public class Hello{
-      public static void main(String[] args) {
+public class Hello {
+   public static void main(String[] args) {
 
-                        Scanner scanner=new Scanner(System.in); 
-                     System.out.println("Enter your base sallary");   
-                         double baseSalary=scanner.nextDouble();
-                      System.out.println("Enter your allowance");     
-                         double allowance=scanner.nextDouble();
+      Scanner scanner = new Scanner(System.in);
+      System.out.println("Enter your base sallary");
+      double baseSalary = scanner.nextDouble();
+      System.out.println("Enter your allowance");
+      double allowance = scanner.nextDouble();
 
-                          double grossSalary=baseSalary+allowance;
+      double grossSalary = baseSalary + allowance;
 
-                  double totalTax=(grossSalary>50000)?grossSalary*0.10:0;
-                     
-                          double netSalary=grossSalary-totalTax;       
-                         System.out.println("Base Salary:"+baseSalary);
-                         System.out.println("Allowance:"+allowance);
-                         System.out.println("Gross Salary:"+grossSalary);
-                         System.out.println("Net Salary:"+netSalary);
+      double totalTax = (grossSalary > 50000) ? grossSalary * 0.10 : 0;
 
-                         scanner.close();
-      }
+      double netSalary = grossSalary - totalTax;
+      System.out.println("Base Salary:" + baseSalary);
+      System.out.println("Allowance:" + allowance);
+      System.out.println("Gross Salary:" + grossSalary);
+      System.out.println("Net Salary:" + netSalary);
+
+      scanner.close();
+   }
 }
