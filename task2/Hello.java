@@ -94,9 +94,9 @@ public class Hello {
 
      // applied recursion for calculation of maximum marks among all students
 
-     public static int heighestMarks(int[] students) {
-          return recursiveFunctionForHeighestMarks(students, 0, students.length);
-     }
+     // public static int heighestMarks(int[] students) {
+     //      return recursiveFunctionForHeighestMarks(students, 0, students.length);
+     // }
 
      public static void modifyValue(int value) {
           value = value + 10;
@@ -123,7 +123,7 @@ public class Hello {
                }
 
                sc.nextLine();
-               heighestMarks = Math.max(heighestMarks, heighestMarks(students));
+               heighestMarks = Math.max(heighestMarks, recursiveFunctionForHeighestMarks(students,0,students.length));
 
                int totalMarks = totalMarks(students);
                double averageMarks = averageMarks(students);
@@ -138,10 +138,10 @@ public class Hello {
 
           // demonstrating pass by value
 
-          int beforeModificationValue = 10;
-          System.out.println("value before modifcation: " + beforeModificationValue);
-          modifyValue(beforeModificationValue);
-          System.out.println("value after modification: " + beforeModificationValue);
+          // int beforeModificationValue = 10;
+          // System.out.println("value before modifcation: " + beforeModificationValue);
+          // modifyValue(beforeModificationValue);
+          // System.out.println("value after modification: " + beforeModificationValue);
 
      }
 }
