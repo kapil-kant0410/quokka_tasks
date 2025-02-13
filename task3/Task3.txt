@@ -1,0 +1,193 @@
+=> Class and Object
+
+If we want to make different types of cars. Instead of writing everything from scratch for each car, you create a blueprint called Car. This blueprint defines what every car should have, like color, model, and speed. When you make an actual car using this blueprint, it is called an object.
+
+class Car {  
+    String color;  
+    String model;  
+
+    void showDetails() {  
+        System.out.println("Car model: " + model + ", Color: " + color);  
+    }  
+}  
+
+public class Main {  
+    public static void main(String[] args) {  
+        Car myCar = new Car();  
+        myCar.color = "Red";  
+        myCar.model = "Honda";  
+        myCar.showDetails();  
+    }  
+}  
+
+=> Constructor and Types
+
+A constructor is a special method that runs automatically when we create an object. It is used to initialize values.
+
+There are three types of constructors:
+
+1.Default Constructor (does nothing special, just creates the object)
+2.Parameterized Constructor (allows setting values when creating an object)
+3.Copy Constructor (creates a new object by copying another object)
+
+class Car {  
+    String color;  
+    String model;  
+
+    Car() {  // Default Constructor  
+        System.out.println("A new car is created");  
+    }  
+
+    Car(String c, String m) {  // Parameterized Constructor  
+        color = c;  
+        model = m;  
+    }  
+
+    Car(Car oldCar) {  // Copy Constructor  
+        color = oldCar.color;  
+        model = oldCar.model;  
+    }  
+
+    void showDetails() {  
+        System.out.println("Car model: " + model + ", Color: " + color);  
+    }  
+}  
+
+public class Main {  
+    public static void main(String[] args) {  
+        Car car1 = new Car("Blue", "BMW");  
+        Car car2 = new Car(car1);  
+
+        car1.showDetails();  
+        car2.showDetails();  
+    }  
+}  
+
+
+=>Access Modifiers
+Access modifiers decide who can use the class, variables, or methods.
+
+1.Public: Anyone can access it.
+2.Private: Only the same class can access it.
+3.Protected: Accessible within the same package and subclasses.
+4.Default: Accessible only within the same package.
+
+class Car {  
+    public String model = "Tesla";  
+    private int price = 50000;  
+    protected String color = "Red";  
+
+    public void showModel() {  
+        System.out.println("Car model: " + model);  
+    }  
+
+    private void showPrice() {  
+        System.out.println("Car price: " + price);  
+    }  
+}  
+
+public class Main {  
+    public static void main(String[] args) {  
+        Car myCar = new Car();  
+        myCar.showModel();  
+        // myCar.showPrice(); // This will give an error because showPrice is private  
+    }  
+}  
+
+=>Inheritance
+When one class takes features from another class, it is called inheritance.
+
+class Vehicle {  
+    String brand = "Toyota";  
+
+    void start() {  
+        System.out.println("Vehicle is starting...");  
+    }  
+}  
+
+class Car extends Vehicle {  
+    String model = "Corolla";  
+}  
+
+public class Main {  
+    public static void main(String[] args) {  
+        Car myCar = new Car();  
+        System.out.println(myCar.brand);  
+        System.out.println(myCar.model);  
+        myCar.start();  
+    }  
+}  
+
+=>Method Overriding
+When a child class changes a method from the parent class, it is called overriding.
+
+class Vehicle {  
+    void start() {  
+        System.out.println("Vehicle is starting...");  
+    }  
+}  
+
+class Car extends Vehicle {  
+    void start() {  
+        System.out.println("Car is starting...");  
+    }  
+}  
+
+public class Main {  
+    public static void main(String[] args) {  
+        Car myCar = new Car();  
+        myCar.start();  // This calls the overridden method from Car class  
+    }  
+}  
+
+=>Super Keyword
+The super keyword is used to call parent class methods or constructors.
+
+class Vehicle {  
+    String brand = "Toyota";  
+
+    void start() {  
+        System.out.println("Vehicle is starting...");  
+    }  
+}  
+
+class Car extends Vehicle {  
+    void display() {  
+        System.out.println("Brand: " + super.brand);  // Using super to access parent variable  
+        super.start();  // Calling parent class method  
+    }  
+}  
+
+public class Main {  
+    public static void main(String[] args) {  
+        Car myCar = new Car();  
+        myCar.display();  
+    }  
+}  
+
+=>Polymorphism
+Polymorphism means one action but many ways to do it.
+
+Method Overloading (same method name but different parameters)
+Method Overriding (same method name, but different behavior in child class)
+
+class MathOperations {  
+    int add(int a, int b) {  
+        return a + b;  
+    }  
+
+    int add(int a, int b, int c) {  
+        return a + b + c;  
+    }  
+}  
+
+public class Main {  
+    public static void main(String[] args) {  
+        MathOperations math = new MathOperations();  
+        System.out.println(math.add(5, 10));  
+        System.out.println(math.add(5, 10, 15));  
+    }  
+}  
+
+
+
