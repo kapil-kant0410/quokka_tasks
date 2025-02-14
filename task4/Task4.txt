@@ -1,0 +1,143 @@
+=> Abstract Classes and Interfaces 
+
+1. Abstract Class & Methods
+
+    abstract class is an incomplete blueprint for making objects. It has both:
+     Regular methods (complete)
+     Abstract methods (incomplete, no body)
+
+   Example:
+   "Animal" class.
+
+    abstract class Animal {  // Abstract class
+      abstract void makeSound();  // No body must be defined in child class
+    }
+
+    class Dog extends Animal {
+      void makeSound() {  
+        System.out.println("Woof Woof!"); 
+      }
+    }
+
+2. Interfaces
+
+    It only contains method declarations no body.
+
+    Example:
+    Imagine an interface "Vehicle" that defines some rules:
+
+    interface Vehicle {  // Interface
+       void start();  // No body
+       void stop();
+    }
+
+    class Car implements Vehicle {  // Uses "implements"
+    
+    public void start() {  
+        System.out.println("Car starts with a key!");  
+    }
+    
+    public void stop() {  
+        System.out.println("Car stops when brakes are applied!");  
+    }
+    }
+
+3. Difference Between Abstract Class & Interface
+
+    Abstract class 
+    a. Can have both abstract & regular methods.
+    b. Can have normal & static variables.
+    c. Can extend only 1 class.
+    d. Can have constructors.
+
+    Interface
+    a. Only abstract methods.
+    b. Only final/static variables.
+    c. Can implement multiple interfaces.
+    d. dont have constructors.
+
+=> Encapsulation and Packages
+
+1. Getters & Setters 
+   
+    Encapsulation means hiding data inside a class and controlling access using methods.
+
+    Example:
+    Bank Acoount
+
+    class BankAccount {
+    private int balance;  // Private variable (hidden)
+
+    public void setBalance(int amount) {  // Setter
+        if (amount > 0) balance = amount;  
+        else System.out.println("Invalid amount!");
+    }
+
+    public int getBalance() {  // Getter
+        return balance;
+    }
+    }
+
+2. Creating and Using Java Packages
+ 
+    A package is like a folder where related files, classes are stored together.
+
+    package myPackage;  // This file is inside "myPackage" folder
+    public class MyClass {
+    public void sayHello() {  
+        System.out.println("Hello from myPackage!");  
+    }
+    }
+
+    import myPackage.MyClass;  // Import the class
+
+    class Test {
+    public static void main(String[] args) {
+        MyClass obj = new MyClass();  
+        obj.sayHello();  
+    }
+    }
+
+3. Static Keyword
+
+    The static keyword means shared among all objects belongs to the class not an individual object.
+
+    class School {
+    static int totalStudents = 0;  // Shared among all objects
+
+    School() {  
+        totalStudents++;  
+    }
+    }
+
+    public class Test {
+    public static void main(String[] args) {
+        new School();  
+        new School();  
+        System.out.println(School.totalStudents);  // Output: 2
+    }
+    }
+
+    class MathUtils {
+    static int square(int x) {  // No need for objects
+        return x * x;
+    }
+    }
+
+    public class Test {
+    public static void main(String[] args) {
+        System.out.println(MathUtils.square(5));  // Output: 25
+    }
+    }
+
+
+    
+
+
+
+        
+  
+
+
+
+
