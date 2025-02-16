@@ -1,0 +1,108 @@
+=>Exception Handling in Java
+  Exception handling is a way for Java to deal with unexpected problems that might happen while a program is running. Instead of letting the program crash, Java allows us to handle these situations gracefully.
+
+  1. Try-Catch Blocks 
+     A try-catch block is used to handle exceptions that might occur in a piece of code.
+     try block: This is where we write the code that might cause an exception.
+     catch block: This is where we handle the exception if one occurs.
+
+     public class Example {
+     public static void main(String[] args) {
+        try {
+            int a = 10;
+            int b = 0;
+            int result = a / b; // This will cause an exception
+            System.out.println("Result: " + result);
+        } catch (ArithmeticException e) {
+            System.out.println("Cannot divide by zero. Please check your numbers.");
+        }
+     }
+     }
+
+  2. Finally Block
+     The finally block is used when you want some code to always run, no matter what happens inside the try or catch block.
+
+     public class Example {
+     public static void main(String[] args) {
+        try {
+            int arr[] = {1, 2, 3};
+            System.out.println(arr[5]); // This will cause an exception
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Index is out of range.");
+        } finally {
+            System.out.println("This will always execute.");
+        }
+     }
+     }
+
+  3. Throw vs Throws
+     Both throw and throws are used to handle exceptions but they work differently.
+
+     throw is used inside a method to create an exception manually.
+     throws is used in a method signature to indicate that the method might throw an exception.
+
+     public class Example {
+     static void checkAge(int age) {
+        if (age < 0) {
+            throw new IllegalArgumentException("Age cannot be negative.");
+        } else {
+            System.out.println("Age is valid.");
+        }
+     }
+
+     public static void main(String[] args) {
+        checkAge(-5); // This will throw an exception
+     }
+     }
+
+
+     public class Example {
+     static void readFile() throws IOException {
+        FileReader file = new FileReader("non_existing_file.txt"); // This file does not exist
+     }
+
+     public static void main(String[] args) {
+        try {
+            readFile();
+        } catch (IOException e) {
+            System.out.println("File not found.");
+        }
+     }
+     }
+
+  4. Custom Exceptions
+     Sometimes, the built-in exceptions in Java do not fully describe the problem you are dealing with. In such cases, you can create your own exception class by extending the Exception class.   
+
+     class InsufficientBalanceException extends Exception {
+     public InsufficientBalanceException(String message) {
+        super(message);
+     }
+     }
+
+     public class BankAccount {
+       int balance = 5000;
+
+     void withdraw(int amount) throws InsufficientBalanceException {
+        if (amount > balance) {
+            throw new InsufficientBalanceException("Not enough balance to withdraw " + amount);
+        } else {
+            balance -= amount;
+            System.out.println("Withdrawal successful. New balance: " + balance);
+        }
+     }
+
+     public static void main(String[] args) {
+        BankAccount account = new BankAccount();
+        try {
+            account.withdraw(7000); // This will throw the custom exception
+        } catch (InsufficientBalanceException e) {
+            System.out.println(e.getMessage());
+        }
+     }
+     }
+
+
+  
+
+
+
