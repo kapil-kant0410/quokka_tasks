@@ -45,7 +45,7 @@ package task2;
 
 import java.util.*;
 
-public class Hello {
+public class ControlFlowStatements {
 
      // function for the calculation of total marks for the particular student
 

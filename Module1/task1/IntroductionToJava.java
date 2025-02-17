@@ -28,7 +28,7 @@
 
 import java.util.*;
 
-public class Hello {
+public class IntroductionToJava {
    public static void main(String[] args) {
 
       Scanner scanner = new Scanner(System.in);
