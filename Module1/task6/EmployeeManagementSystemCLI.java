@@ -2,11 +2,15 @@ package task6;
 
 import java.util.*;
 
+//Employee class implementaion
+
 class Employee {
     int id;
     String name;
     String department;
     private int salary;
+
+    // use of this keyword to refer the same class
 
     Employee(int id, String name, String department, int salary) {
         this.id = id;
@@ -14,6 +18,8 @@ class Employee {
         this.department = department;
         this.salary = salary;
     }
+
+    // display employee details
 
     public void displayDetails() {
         System.out.println("Employee Details:");
@@ -23,6 +29,8 @@ class Employee {
         System.out.println("Salary:" + "$" + salary);
     }
 
+    // display manager details
+
     public void managerDisplayDetails() {
         System.out.println("Manager Details:");
         System.out.println("ID:" + " " + id);
@@ -30,6 +38,8 @@ class Employee {
         System.out.println("Department:" + " " + department);
         System.out.println("Salary:" + "$" + salary);
     }
+
+    // display hr details
 
     public void hrDisplayDetails() {
         System.out.println("Hr Details:");
@@ -41,14 +51,20 @@ class Employee {
 
 }
 
+// manager class implementation
+
 class Manager extends Employee {
 
     int teamSize;
+
+    // use of super keyword to refer the immediate next parent
 
     Manager(int id, String name, String department, int salary, int teamSize) {
         super(id, name, department, salary);
         this.teamSize = teamSize;
     }
+
+    // function overriding (polymorphism)
 
     public void displayDetails() {
         super.managerDisplayDetails();
@@ -57,14 +73,20 @@ class Manager extends Employee {
 
 }
 
+// hr class implementaion
+
 class Hr extends Employee {
 
     int recruitmentsHandled;
+
+    // use of super keyword to refer the immediate next parent
 
     Hr(int id, String name, String department, int salary, int recruitmentsHandled) {
         super(id, name, department, salary);
         this.recruitmentsHandled = recruitmentsHandled;
     }
+
+    // function overriding (polymorphism)
 
     public void displayDetails() {
         super.hrDisplayDetails();
@@ -86,7 +108,7 @@ public class EmployeeManagementSystemCLI {
         String selectClassType = sc.nextLine();
 
         switch (selectClassType) {
-
+            
             case "employee": {
                 System.out.print("Enter a valid employee id: ");
                 int id = sc.nextInt();
