@@ -1,7 +1,7 @@
 package task6;
 
 // Manager class implementation
-class Manager extends Employee {
+public class Manager extends Employee {
     int teamSize;
 
     // Use of super keyword to refer to the immediate parent class

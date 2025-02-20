@@ -1,6 +1,6 @@
-package task6;
+package org.example;
 
-class Employee {
+public class Employee {
     int id;
     String name;
     String department;
