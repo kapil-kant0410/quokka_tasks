@@ -1,0 +1,114 @@
+Java Collection Framework
+
+JCF is a set of pre-built data structures in Java that makes handling and managing data easier. Instead of manually coding arrays or linked lists from scratch, we can use Lists, Sets, Maps, Stacks, Queues, and Iterators to efficiently store and process data.
+
+1. List (ArrayList, LinkedList)
+
+   a. ArrayList (Fast Access, Slow Modification)
+
+      it is as a resizable array.
+      Fast for reading (get(index)) but slow for inserting/removing in the middle (add(index, element)).
+      Example: Storing student roll numbers in order.
+
+   b. LinkedList (Fast Modification, Slow Access)
+
+      Each element is linked to the next (like a chain of nodes).
+      Fast for inserting/removing anywhere but slow for accessing random elements (get(index)).
+      Example: Managing a playlist, where adding/removing songs is frequent.
+
+2. Set (HashSet, TreeSet) 
+
+    a. HashSet (Unordered, Fast)
+
+       Uses hashing, meaning elements are stored randomly but retrieval is fast.
+       No duplicate values allowed.
+       Example: Storing unique email IDs in a system.
+
+    b. TreeSet (Sorted, Slower)
+
+      Keeps elements sorted in ascending order.
+      Slower than HashSet but useful when ordering is required.
+      Example: Storing sorted student roll numbers.
+
+3. Map (HashMap, TreeMap)
+
+    a. HashMap (Unordered, Fast)
+    
+       Stores data in a key-value format (e.g., { "John": 85, "Alice": 90 }).
+       Fast lookups but no order guarantee.
+       Example: Storing employee ID with salary.      
+
+    b. TreeMap (Sorted, Slower)
+
+       Keeps keys sorted (e.g., {"Alice": 90, "John": 85, "Sam": 75}).
+       Useful when you need ordered retrieval.
+       Example: Sorting a phone book by name.    
+
+4. Sorting Collections (Comparator, Comparable)   
+
+    a. Comparable (Natural Sorting)
+
+       Used when an object knows how to sort itself.
+       Example: Sorting students by roll number.
+       Implement compareTo() method.
+
+    b. Comparator (Custom Sorting)
+
+       Used when we define sorting rules (e.g., sorting students by marks instead of roll number).
+       Example: Sorting players by scores instead of names.
+       Implement compare() method.   
+
+5. Stack & Queue – Managing Order of Elements
+    
+    a. Stack (Stack) (Last In, First Out - LIFO).
+
+       push(element): Add to the top.
+       pop(): Remove from the top.
+       Example: Undo feature in text editors. 
+
+    b. Queue (PriorityQueue) – Think of a queue at a ticket counter (First In, First Out - FIFO).
+
+       offer(element): Add to the queue.
+       poll(): Remove from the front.
+       PriorityQueue: Elements are removed based on priority instead of order.
+       Example: Task scheduling in an operating system   
+
+6. Iterators (forEach, Iterator, ListIterator)
+   Iterators help us loop through collections efficiently.
+
+   forEach: Simple way to loop through elements.
+   Iterator: Used to traverse a collection and safely remove elements while iterating.
+   ListIterator: Like Iterator, but can move both forward and backward.
+   Example: Iterating over a list of students and removing those who failed.      
+
+7. Strings & Arrays
+
+    1. Arrays (1D & 2D) – Fixed-Size Collection
+
+      1D Arrays: Like a list of numbers: int[] arr = {1, 2, 3, 4};
+      2D Arrays: Like a table/grid;
+      int[][] matrix = {
+                       {1, 2, 3},
+                       {4, 5, 6}
+                       };
+
+    2. String Manipulation (String, StringBuilder, StringBuffer)
+       Strings are used to store text, but Java provides different ways to handle them efficiently.
+
+       1. String (Immutable - Unchangeable)
+          Any change creates a new string instead of modifying the old one.
+
+       2. StringBuilder (Mutable & Fast)
+          StringBuffer (Thread-Safe Version of StringBuilder).
+          Works like StringBuilder but is safe for multi-threaded programs.
+
+
+    3. Common String Methods
+       .length(): Find string length.
+       .charAt(i): Get character at index i.
+       .substring(start, end): Extract part of a string.
+       .replace(old, new): Replace text.
+       .split(delimiter): Split a string into an array.         
+
+        
+   
