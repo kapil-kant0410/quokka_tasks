@@ -1,0 +1,189 @@
+Functional Interfaces & Lambda in Java
+
+1. Introduction to Lambda Expressions
+    Lambda expressions in Java provide a simple and clear way to implement functional interfaces. They help reduce boilerplate code and make code more readable.
+
+    1.1 What is a Lambda Expression?
+    A lambda expression is an anonymous function (a function without a name) that can be used to implement a functional interface.
+
+    1.2 Syntax of Lambda Expression
+
+    (parameter1, parameter2) -> expression
+    The -> symbol is called the lambda operator.
+    The left side contains the parameters (like method parameters).
+    The right side contains the expression or block of code.
+
+    1.3 Example of Lambda Expression
+    // Without Lambda
+    Runnable r1 = new Runnable() {
+    public void run() {
+        System.out.println("Hello from Runnable");
+    }
+    };
+    r1.run();
+
+    // With Lambda
+    Runnable r2 = () -> System.out.println("Hello from Lambda");
+    r2.run();
+
+
+
+2. Functional Interfaces
+    A functional interface is an interface that contains only one abstract method. It can have multiple default or static methods, but only one abstract method.
+
+    2.1 @FunctionalInterface Annotation
+    Although it is not mandatory, adding @FunctionalInterface ensures that an interface follows the functional interface rules.
+
+    @FunctionalInterface
+    interface MyFunctionalInterface {
+    void show();
+    }
+
+    They support lambda expressions.
+    They make code shorter and cleaner.
+    They improve readability and reusability.
+
+3. Built-in Functional Interfaces
+
+    3.1 Predicate<T> (Tests a Condition and Returns true or false)
+    The Predicate<T> interface is used to check if a condition is met. It takes one input and returns a boolean result.
+
+    3.1.1 Definition
+
+    @FunctionalInterface
+    public interface Predicate<T> {
+    boolean test(T t);
+    }
+
+    3.1.2 Example: Check if a number is even
+ 
+    import java.util.function.Predicate;
+
+    public class PredicateExample {
+    public static void main(String[] args) {
+        Predicate<Integer> isEven = num -> num % 2 == 0;
+        System.out.println(isEven.test(4)); // Output: true
+        System.out.println(isEven.test(7)); // Output: false
+    }
+    }
+
+    3.1.3 Predicate Methods
+    test(T t): Returns true or false based on a condition.
+    and(Predicate other): Combines two predicates using logical AND.
+    or(Predicate other): Combines two predicates using logical OR.
+    negate(): Reverses the result of a predicate.
+
+    3.1.4 Example: Combine Predicates
+
+    Predicate<Integer> isEven = num -> num % 2 == 0;
+    Predicate<Integer> isPositive = num -> num > 0;
+
+    Predicate<Integer> isEvenAndPositive = isEven.and(isPositive);
+    System.out.println(isEvenAndPositive.test(4));  // Output: true
+    System.out.println(isEvenAndPositive.test(-4)); // Output: false
+
+    
+    3.2 Function<T, R> (Takes Input and Returns Output)
+    The Function<T, R> interface takes one input and returns one output.
+
+    3.2.1 Definition
+
+    @FunctionalInterface
+    public interface Function<T, R> {
+    R apply(T t);
+    }
+
+    3.2.2 Example: Convert String to Integer
+
+    import java.util.function.Function;
+
+    public class FunctionExample {
+    public static void main(String[] args) {
+        Function<String, Integer> stringToLength = str -> str.length();
+        System.out.println(stringToLength.apply("Lambda")); // Output: 6
+    }
+    }
+
+    3.2.3 Function Methods
+
+    apply(T t): Takes input and returns output.
+    compose(Function before): First applies the given function, then applies itself.
+    andThen(Function after): First applies itself, then applies the given function.
+    identity(): Returns the input as output without any modification.
+
+    3.2.4 Example: compose() and andThen()
+
+    Function<Integer, Integer> doubleIt = num -> num * 2;
+    Function<Integer, Integer> square = num -> num * num;
+
+    Function<Integer, Integer> doubleThenSquare = square.compose(doubleIt);
+    System.out.println(doubleThenSquare.apply(3)); // Output: 36
+
+    Function<Integer, Integer> squareThenDouble = square.andThen(doubleIt);
+    System.out.println(squareThenDouble.apply(3)); // Output: 18
+
+    3.3 Consumer<T> (Takes Input and Performs Action, No Return Value)
+    The Consumer<T> interface takes one input and performs an action but does not return a result.
+
+    3.3.1 Definition
+
+    @FunctionalInterface
+    public interface Consumer<T> {
+    void accept(T t);
+    }
+
+    3.3.2 Example: Print a Message
+
+    import java.util.function.Consumer;
+
+    public class ConsumerExample {
+    public static void main(String[] args) {
+        Consumer<String> printMessage = message -> System.out.println("Message: " + message);
+        printMessage.accept("Hello Lambda");
+    }
+    }
+
+    3.3.3 Consumer Methods
+    accept(T t): Performs an action on the input.
+    andThen(Consumer<T> other): Chains another consumer after the current one.
+
+    3.3.4 Example: Chaining Consumers
+    Consumer<String> print = message -> System.out.println("Printing: " + message);
+    Consumer<String> toUpperCase = message -> System.out.println("Uppercase: " + message.toUpperCase());
+
+    print.andThen(toUpperCase).accept("hello world");
+
+
+    3.4 Supplier<T> (Provides a Value Without Input)
+    The Supplier<T> interface does not take any input but returns a value.
+
+    3.4.1 Definition
+
+    @FunctionalInterface
+    public interface Supplier<T> {
+    T get();
+    }
+      
+    3.4.2 Example: Generate Random Number
+
+    import java.util.function.Supplier;
+    import java.util.Random;
+
+    public class SupplierExample {
+    public static void main(String[] args) {
+        Supplier<Integer> randomNumber = () -> new Random().nextInt(100);
+        System.out.println(randomNumber.get()); 
+    }
+    }
+
+    3.4.3 Example: Get Current System Time
+
+    import java.util.function.Supplier;
+    import java.time.LocalTime;
+
+    public class TimeSupplierExample {
+    public static void main(String[] args) {
+        Supplier<String> currentTime = () -> LocalTime.now().toString();
+        System.out.println("Current Time: " + currentTime.get());
+    }
+    }
