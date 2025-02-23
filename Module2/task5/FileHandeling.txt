@@ -1,0 +1,206 @@
+1. File Handling in Java
+File handling in Java allows reading and writing files efficiently. Java provides different classes for this purpose.
+
+1.1 Reading and Writing Files
+Java provides multiple ways to read from and write to files, including FileReader, BufferedReader, and FileWriter.
+
+1.1.1 Reading Files Using FileReader
+FileReader is used for reading characters from a file.
+It reads the file character by character.
+Example:
+
+
+import java.io.FileReader;
+import java.io.IOException;
+
+public class FileReaderExample {
+    public static void main(String[] args) {
+        try (FileReader reader = new FileReader("example.txt")) {
+            int character;
+            while ((character = reader.read()) != -1) {
+                System.out.print((char) character);
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
+        }
+    }
+}
+
+1.1.2 Reading Files Using BufferedReader
+BufferedReader reads text from a file efficiently.
+It reads data line by line, making it faster.
+
+Example:
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class BufferedReaderExample {
+    public static void main(String[] args) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("example.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
+        }
+    }
+}
+
+1.1.3 Writing Files Using FileWriter
+FileWriter is used for writing character data to a file.
+It can either overwrite or append data to a file.
+Example:
+
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class FileWriterExample {
+    public static void main(String[] args) {
+        try (FileWriter writer = new FileWriter("example.txt", true)) { // true for appending
+            writer.write("Hello, World!\n");
+            System.out.println("Data written successfully.");
+        } catch (IOException e) {
+            System.out.println("Error writing file: " + e.getMessage());
+        }
+    }
+}
+
+
+1.2 Handling Exceptions: FileNotFoundException & IOException
+When working with files, exceptions can occur. Java provides specific exceptions to handle file-related issues.
+
+1.2.1 Handling FileNotFoundException
+Thrown when a file does not exist.
+Typically occurs in FileReader or Scanner.
+
+Example:
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class FileNotFoundExample {
+    public static void main(String[] args) {
+        try {
+            Scanner scanner = new Scanner(new File("non_existent.txt"));
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found: " + e.getMessage());
+        }
+    }
+}
+
+1.2.2 Handling IOException
+A broader exception that includes file reading/writing errors.
+It covers scenarios like permission issues or disk full errors.
+
+Example:
+
+import java.io.FileReader;
+import java.io.IOException;
+
+public class IOExceptionExample {
+    public static void main(String[] args) {
+        try (FileReader reader = new FileReader("example.txt")) {
+            int character;
+            while ((character = reader.read()) != -1) {
+                System.out.print((char) character);
+            }
+        } catch (IOException e) {
+            System.out.println("An I/O error occurred: " + e.getMessage());
+        }
+    }
+}
+
+
+2. Design Patterns
+Design patterns are best practices used in software development for solving common problems.
+
+2.1 Singleton Pattern
+The Singleton Pattern ensures that only one instance of a class exists throughout the application.
+
+2.1.1 Key Features of Singleton Pattern
+Only one instance of the class is created.
+A global access point is provided.
+Used for logging, database connections, caching, etc.
+
+2.1.2 Implementation of Singleton Pattern
+Example (Thread-Safe Singleton using synchronized)
+
+class Singleton {
+    private static Singleton instance;
+
+    private Singleton() {} // Private constructor
+
+    public static synchronized Singleton getInstance() {
+        if (instance == null) {
+            instance = new Singleton();
+        }
+        return instance;
+    }
+
+    public void showMessage() {
+        System.out.println("Singleton Instance");
+    }
+}
+
+public class SingletonExample {
+    public static void main(String[] args) {
+        Singleton singleton1 = Singleton.getInstance();
+        Singleton singleton2 = Singleton.getInstance();
+        singleton.showMessage1();
+        singleton.showMessage2();
+    }
+}
+
+2.2 Factory Pattern
+The Factory Pattern is a creational design pattern that provides a way to create objects without specifying their concrete class.
+
+2.2.1 Key Features of Factory Pattern
+Helps in creating objects based on input conditions.
+Useful when the exact object type is unknown at compile time.
+Follows the Open/Closed Principle (easy to extend without modifying existing code).
+
+2.2.2 Implementation of Factory Pattern
+
+interface Vehicle {
+    void drive();
+}
+
+class Car implements Vehicle {
+    public void drive() {
+        System.out.println("Driving a Car");
+    }
+}
+
+class Bike implements Vehicle {
+    public void drive() {
+        System.out.println("Riding a Bike");
+    }
+}
+
+
+class VehicleFactory {
+    public static Vehicle getVehicle(String type) {
+        if (type.equalsIgnoreCase("Car")) {
+            return new Car();
+        } else if (type.equalsIgnoreCase("Bike")) {
+            return new Bike();
+        }
+        return null;
+    }
+}
+
+public class FactoryPatternExample {
+    public static void main(String[] args) {
+        Vehicle vehicle1 = VehicleFactory.getVehicle("Car");
+        vehicle1.drive(); // Output: Driving a Car
+
+        Vehicle vehicle2 = VehicleFactory.getVehicle("Bike");
+        vehicle2.drive(); // Output: Riding a Bike
+    }
+}
+
+
+
