@@ -1,0 +1,90 @@
+
+1.Filtering and Mapping
+    
+    1.1 Filtering means selecting only the data you need from a collection based on a condition.
+
+    Example filtering only even numbers from a list of numbers
+
+    List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6);  
+    List<Integer> evenNumbers = numbers.stream()  
+    .filter(n -> n % 2 == 0)  
+    .collect(Collectors.toList());  
+    System.out.println(evenNumbers); // Output will be 2 4 6  
+    Here the filter method keeps only numbers that are divisible by two
+
+    1.2 Mapping means changing each element in a collection to something else
+
+    Example converting a list of names to uppercase
+
+    List<String> names = Arrays.asList("john", "jane", "doe");  
+    List<String> upperCaseNames = names.stream()  
+    .map(String::toUpperCase)  
+    .collect(Collectors.toList());  
+    System.out.println(upperCaseNames); // Output will be JOHN JANE DOE  
+
+
+2.Sorting Data
+
+    Sorting means arranging data in order either increasing or decreasing
+    Example sorting a list of numbers in increasing order
+
+    List<Integer> numbers = Arrays.asList(5, 2, 8, 1, 3);  
+    List<Integer> sortedNumbers = numbers.stream()  
+    .sorted()  
+    .collect(Collectors.toList());  
+    System.out.println(sortedNumbers); // Output will be 1 2 3 5 8  
+    By default sorted arranges numbers in increasing order
+
+    Example sorting a list of names in alphabetical order
+
+    List<String> names = Arrays.asList("John", "Jane", "Doe");  
+    List<String> sortedNames = names.stream()  
+    .sorted()  
+    .collect(Collectors.toList());  
+    System.out.println(sortedNames); // Output will be Doe Jane John  
+    Sorting also works on words where A to Z order is applied
+
+    Sorting in reverse decreasing order
+
+
+    List<Integer> numbers = Arrays.asList(5, 2, 8, 1, 3);  
+    List<Integer> reverseSortedNumbers = numbers.stream()  
+    .sorted(Comparator.reverseOrder())  
+    .collect(Collectors.toList());  
+    System.out.println(reverseSortedNumbers); // Output will be 8 5 3 2 1  
+    Here we use Comparator reverse order to sort in decreasing order    
+
+3.Collectors and Grouping
+
+    Collectors are used to store the result of stream operations into a list set map or other data structures
+
+    Example collecting stream results into a list
+
+    List<String> names = Arrays.asList("John", "Jane", "Doe");  
+    List<String> collectedNames = names.stream()  
+    .collect(Collectors.toList());  
+    System.out.println(collectedNames); // Output will be John Jane Doe  
+    Here Collectors toList converts stream back to a list
+
+    Grouping means dividing data into categories based on some condition
+
+    Example grouping numbers into even and odd
+
+    List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6);  
+    Map<Boolean, List<Integer>> groupedNumbers = numbers.stream()  
+    .collect(Collectors.groupingBy(n -> n % 2 == 0));  
+    System.out.println(groupedNumbers);  
+    Here numbers are grouped into two categories where true represents even numbers and false represents odd numbers
+
+    Example grouping people by their age category
+
+    List<Person> people = Arrays.asList(  
+    new Person("John", 25),  
+    new Person("Jane", 30),  
+    new Person("Doe", 25)  
+    );  
+
+    Map<Integer, List<Person>> groupedByAge = people.stream()  
+    .collect(Collectors.groupingBy(person -> person.age));  
+    System.out.println(groupedByAge);  
+    Here people are grouped based on their age where all people with the same age are in one group
