@@ -1,20 +1,32 @@
 package com.ql;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.lang.RuntimeException;
 
 public class UserManager {
 
-       private ArrayList<User> users=new ArrayList<>();
-       private User u1;
+       public static ArrayList<User> users=new ArrayList<>();
+       private  User u1;
 
-       UserManager(int id){
-          u1= users.stream().map((user)->user.id==id);
+       UserManager(String name,Double balance){
+           u1=new User(name,balance);
+           users.add(u1);
        }
 
-       public void addUser(String name,Double balance){
-               u1=new User(name,balance);
-               users.add(u1);
+       UserManager(int id){
+            for(User usr:users){
+                if(usr.id==id){
+                    u1=usr;
+                    break;
+                }
+            }
+
+       }
+
+       public int getUserId(){
+             return u1.getUserId();
        }
 
        public void showAllUsers(){

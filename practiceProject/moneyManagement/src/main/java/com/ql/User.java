@@ -20,6 +20,10 @@ public class User {
               debitList=new ArrayList<>();
           }
 
+          public int getUserId(){
+                return id;
+          }
+
           public Double getBalance(){
                 return balance;
           }
