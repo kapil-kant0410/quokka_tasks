@@ -9,15 +9,28 @@ public class User {
        public int id;
        private String name;
        private double balance;
+       static  int maxOneDayLimit;
+       private int remainingMaxOneDayLimit;
        ArrayList<Double> creditList;
        ArrayList<Double> debitList;
 
-          User(String name,double balance){
+          User(String name,double balance,int maxOneDayLimit){
               this.id=gid++;
               this.name=name;
               this.balance=balance;
+              this.remainingMaxOneDayLimit=maxOneDayLimit;
+              this.maxOneDayLimit=maxOneDayLimit;
               creditList=new ArrayList<>();
               debitList=new ArrayList<>();
+          }
+
+          public  boolean checkTodayRemainingAmount(double amount){
+              if(remainingMaxOneDayLimit>=0&&(remainingMaxOneDayLimit-amount)>=0&&(balance-amount)>=0) return true;
+               return false;
+          }
+
+          public int remainingAmountToSpent(){
+                return remainingMaxOneDayLimit;
           }
 
           public int getUserId(){
@@ -37,6 +50,7 @@ public class User {
           public void debitAmount(double amount){
                 debitList.add(amount);
                 balance=balance-amount;
+                remainingMaxOneDayLimit-=amount;
                 System.out.println("amount debit successfully");
           }
 

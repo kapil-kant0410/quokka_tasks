@@ -10,8 +10,8 @@ public class UserManager {
        public static ArrayList<User> users=new ArrayList<>();
        private  User u1;
 
-       UserManager(String name,Double balance){
-           u1=new User(name,balance);
+       UserManager(String name,Double balance,int maxOneDayLimit){
+           u1=new User(name,balance,maxOneDayLimit);
            users.add(u1);
        }
 
@@ -23,6 +23,10 @@ public class UserManager {
                 }
             }
 
+       }
+
+       public boolean checkTodayRemainingAmount(double amount){
+           return  u1.checkTodayRemainingAmount(amount);
        }
 
        public int getUserId(){

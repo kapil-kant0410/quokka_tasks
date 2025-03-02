@@ -25,11 +25,16 @@ public class Main {
                     System.out.println("enter initial balance what u want to deposit");
                     double balance=sc.nextDouble();
                     sc.nextLine();
-
-                    UserManager manager=new UserManager(name,balance);
+                    System.out.println("enter maximum one day money spent limit");
+                    int maxOneDayLimit=sc.nextInt();
+                    sc.nextLine();
+                    if(maxOneDayLimit>balance){
+                        System.out.println("max one day limit must be less than total balance");
+                        return;
+                    }
+                    UserManager manager=new UserManager(name,balance,maxOneDayLimit);
                     int userId=manager.getUserId();
                     System.out.println("your user id is: "+userId);
-
                     System.out.println("what u want credit or debit or today's expenses statics or current balance");
                     String task=sc.nextLine();
                     switch(task){
@@ -44,6 +49,10 @@ public class Main {
                             System.out.println("enter amount u want to debit");
                             double amount=sc.nextDouble();
                             sc.nextLine();
+                            if(manager.checkTodayRemainingAmount(amount)==false){
+                                System.out.println("you reached your today spent limit");
+                                return;
+                            }
                             manager.debitAmount(amount);
                             break;
                         }
@@ -86,6 +95,10 @@ public class Main {
                             System.out.println("enter amount u want to debit");
                             double amount=sc.nextDouble();
                             sc.nextLine();
+                            if(manager.checkTodayRemainingAmount(amount)==false){
+                                System.out.println("you reached your today spent limit");
+                                return;
+                            }
                             manager.debitAmount(amount);
                             break;
                         }
