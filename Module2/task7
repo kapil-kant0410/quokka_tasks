@@ -1,0 +1,58 @@
+1.  What is Spring and Why Use It?
+    1.1 What is Spring?
+    Spring is a Java framework used for building enterprise applications.
+    It provides a lightweight, modular, and powerful way to develop applications.
+    Supports dependency injection (DI), aspect-oriented programming (AOP), and transaction management.
+    1.2 Why Use Spring?
+    Reduces Boilerplate Code - Uses annotations instead of XML configuration.
+    Supports Dependency Injection (DI) - Manages objects automatically.
+    Modular Architecture - Use only what you need (Spring Core, Spring MVC, Spring Boot, etc.).
+    Powerful Database Support - Works with JDBC, JPA, Hibernate, etc.
+    Built-in Security - Supports authentication & authorization (Spring Security).
+    Microservices Support - Easily build REST APIs & microservices with Spring Boot.
+
+2. Core Principles of Spring
+
+   2.1 Dependency Injection (DI)
+   A design pattern where Spring injects required dependencies into objects instead of creating them manually. 
+
+   // without dependency injection
+   class Car {
+   Engine engine = new Engine();
+   }   
+
+   @Component
+   class Car {
+   private final Engine engine;
+
+   @Autowired  // Spring automatically injects Engine
+   Car(Engine engine) {
+        this.engine = engine;
+   }
+   }
+
+   2.2 Inversion of Control (IoC)
+
+   IoC reverses object creation responsibility from developers to the Spring Container.
+   Spring creates, manages, and injects dependencies automatically.
+   IoC Container manages objects using BeanFactory & ApplicationContext.
+   Developers define beans, and Spring injects them where needed.
+
+3. Spring Annotations
+
+    @SpringBootApplication	Marks the main class of a Spring Boot app (auto-configures everything).
+    @Component	Generic annotation for Spring-managed beans.
+    @Service	Specialized @Component for business logic.
+    @Repository	Specialized @Component for data access layer.
+    @Controller	Marks a class as a Spring MVC Controller (for web applications).
+    @RestController	Combination of @Controller and @ResponseBody (returns JSON in REST APIs).
+
+4. Understanding Spring Boot Auto-Configuration
+ 
+    4.1 What is Auto-Configuration?
+    Spring Boot automatically configures your application based on the dependencies added.
+    Eliminates manual configuration for databases, web servers, etc.    
+
+
+
+   
