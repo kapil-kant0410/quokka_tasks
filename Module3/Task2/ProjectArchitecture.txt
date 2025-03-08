@@ -1,0 +1,102 @@
+1. Study Project Architecture Essentials
+This section covers the foundational elements involved in the construction of software architecture.
+
+1.1. Understanding Project Architecture
+Definition of project architecture
+Importance of well-structured architecture
+How architecture impacts scalability, maintainability, and performance
+
+
+1.2. Core Elements of Project Architecture
+
+Frontend Layer:
+UI Components
+Client-side frameworks (React, Angular, Vue)
+
+Backend Layer:
+API Development
+Business Logic
+Frameworks (Django, Spring, Express.js, etc.)
+
+Database Layer:
+Relational Databases (MySQL, PostgreSQL)
+NoSQL Databases (MongoDB, Firebase)
+ORM (Object-Relational Mapping) usage
+
+Service Layer:
+Microservices Architecture
+RESTful Services & GraphQL
+
+Security & Authentication:
+Authentication (JWT, OAuth)
+Authorization (Role-Based Access Control)
+
+Infrastructure & Deployment:
+CI/CD Pipelines
+Cloud Platforms (AWS, Azure, Google Cloud)
+
+
+
+2. MVC/MVT and Repository Patterns
+explains popular software design patterns used in modern applications.
+
+2.1. MVC (Model-View-Controller) Pattern
+
+2.1.1. Definition & Purpose
+Separates concerns in software architecture
+Makes code easier to manage and scale
+
+2.1.2. Components of MVC
+
+Model:
+Represents data and business logic
+Interacts with the database
+
+View:
+Handles UI and user interaction
+Displays data from the model
+
+Controller:
+Acts as an intermediary between Model and View
+Processes user input and updates the model/view
+
+2.1.3. MVC in Different Frameworks
+
+Django (uses MVT, a variation of MVC)
+ASP.NET (MVC)
+Spring  (MVC)
+Express.js with templating engines
+
+
+
+2.2. MVT (Model-View-Template) Pattern
+
+2.2.1. How MVT Differs from MVC
+Used mainly in Django framework
+Model (Same as MVC - handles data and business logic)
+View (Handles request and response, interacts with Model)
+Template (Manages UI presentation, equivalent to View in MVC)
+
+
+2.3. Repository Pattern
+
+2.3.1. Definition & Purpose
+Separates database logic from business logic
+Provides a clean way to interact with databases
+Improves testability and maintainability
+
+2.3.2. Components of Repository Pattern
+Repository (An abstraction layer over data access logic)
+Entity/Model (Represents the data structure)
+Service Layer (Interacts with the repository to execute business logic)
+
+2.3.3. Advantages of Repository Pattern
+Decouples database logic from application logic
+Makes unit testing easier
+Helps in switching between different databases
+
+2.3.4. Implementation Examples
+Django ORM with Repository Pattern
+Spring Boot with JPA Repository
+Node.js with Sequelize Repository Pattern
+
