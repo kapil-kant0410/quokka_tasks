@@ -1,0 +1,159 @@
+1. Client-Server Architecture
+The Client-Server Architecture is a fundamental design model in which multiple clients (users or devices) interact with a central server to request and receive services.
+
+1.1 Basics of Client-Server Model
+
+Client:
+A client is a device, application, or program that initiates requests to a server.
+Examples:
+
+A web browser (Chrome, Firefox) that requests web pages.
+A mobile app fetching user data from a backend.
+A desktop application connecting to an online database.
+
+Server:
+A server is a powerful computer or system that provides services to clients.
+Examples:
+
+A web server (Apache, Nginx) that serves web pages.
+A database server (MySQL, PostgreSQL) that stores data.
+A game server that manages multiplayer connections.
+
+Why is Client-Server Architecture Important?
+Centralized Management – All data and logic reside on the server.
+Scalability – Servers can handle multiple clients at once.
+Security – Sensitive operations can be controlled from a single point.
+
+1.2 How Client-Server Communication Works
+Communication between a client and a server follows the Request-Response Model:
+
+The client sends a request (e.g., opening a webpage).
+The server processes the request and sends a response.
+The client displays or processes the response.
+Common Protocols Used
+HTTP/HTTPS – Used for web browsing.
+FTP – File transfer between client and server.
+TCP/IP – Core protocol for data transmission.
+WebSockets – Enables real-time, bidirectional communication.
+Synchronous vs. Asynchronous Communication
+Synchronous – The client waits for the server’s response before continuing.
+Asynchronous – The client continues other tasks while waiting for a response.
+
+1.3 Types of Client-Server Architecture
+1. Two-Tier Architecture
+The client directly communicates with the server.
+Example: A desktop app connecting directly to a database.
+2. Three-Tier Architecture
+Separates Client, Application Server, and Database Server.
+Example: A web app where:
+The frontend (browser) is the client.
+The backend (Spring Boot) is the application server.
+PostgreSQL is the database server.
+3. N-Tier Architecture
+Extends the three-tier model by adding more layers like caching, load balancing, etc.
+Used in large-scale applications.
+4. Peer-to-Peer (P2P) vs. Client-Server
+P2P – All devices act as both clients and servers (e.g., torrents).
+Client-Server – Centralized server controls requests.
+
+
+2. Requests & Responses
+In a client-server system, requests and responses are how communication happens.
+
+2.1 Request:
+A request is a message sent by the client to the server, asking for a specific resource or action.
+
+Components of a Request:
+Request Line – Includes method (GET, POST), URL, and HTTP version.
+Headers – Metadata like authentication, content type.
+Body – Data sent in POST/PUT requests.
+
+2.2 Response:
+A response is the server’s reply to a request.
+
+Components of a Response
+Status Code – Indicates success, failure, or error.
+Headers – Provide additional info (e.g., cache, content type).
+Body – Contains the requested data.
+
+2.3 Stateless vs. Stateful Communication
+Stateless Communication
+The server does not store client session data.
+Each request is independent.
+Example: REST APIs.
+
+Stateful Communication
+The server maintains client session data.
+Example: Online banking, where the user stays logged in.
+
+2.4 Headers and Their Role
+Headers are key-value pairs sent in requests and responses.
+
+Common Request Headers
+Authorization – API keys or JWT tokens.
+Content-Type – Defines data format (JSON, XML).
+Accept – Specifies expected response format.
+
+Common Response Headers
+Set-Cookie – Manages user sessions.
+Cache-Control – Defines how responses should be cached.
+
+
+3. Introduction to APIs
+An API (Application Programming Interface) allows different applications to communicate.
+
+3.1 What is an API?
+A set of rules for software interaction.
+Allows applications to request and exchange data.
+
+3.2 Types of APIs
+Web APIs – Used in web applications (REST, SOAP, GraphQL).
+Library APIs – Third-party software integrations.
+OS APIs – System-level functions.
+Hardware APIs – Controls hardware device.
+
+3.3 API Communication Methods
+
+RESTful APIs (Representational State Transfer)
+
+Uses HTTP methods (GET, POST, PUT, DELETE).
+Stateless – No session data stored.
+Uses JSON or XML.
+
+SOAP (Simple Object Access Protocol)
+
+XML-based.
+More secure but complex.
+
+GraphQL
+
+Flexible query-based API.
+Allows fetching only the required data.
+
+3.4 Data Transfer Methods in APIs
+
+JSON (JavaScript Object Notation) – Lightweight, readable.
+XML (Extensible Markup Language) – Structured but heavy.
+Form Data – Used in web forms.
+Binary Data – For file transfer.
+
+3.5 API Security Mechanisms
+
+Authentication Methods
+API Keys – Simple but less secure.
+OAuth 2.0 – Token-based authorization.
+JWT (JSON Web Token) – Secure authentication.
+Basic Authentication – Username & password (less secure).
+
+Encryption & Data Protection
+HTTPS & SSL/TLS – Secure API communication.
+HMAC (Hash-based Message Authentication Code) – Data integrity check.
+
+3.6 Stateless vs. Stateful APIs
+Stateless APIs – No client session (e.g., REST APIs).
+Stateful APIs – Maintain client session (e.g., banking APIs).
+
+3.7 API Rate Limiting & Performance Optimization
+Rate Limiting – Prevents excessive API requests.
+Caching – Stores responses for quick retrieval.
+Compression – Uses Gzip, Brotli for faster data transfer.
