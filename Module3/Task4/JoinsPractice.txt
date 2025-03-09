@@ -1,0 +1,99 @@
+1. Setting Up Sample Tables
+
+employees (Stores employee details)
+departments (Stores department details)
+
+CREATE TABLE employees (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100),
+    age INT,
+    salary DECIMAL(10,2),
+    department_id INT
+);
+
+CREATE TABLE departments (
+    id SERIAL PRIMARY KEY,
+    department_name VARCHAR(100)
+);
+
+
+INSERT INTO departments (department_name) VALUES
+('HR'), ('Finance'), ('IT'), ('Marketing');
+
+INSERT INTO employees (name, age, salary, department_id) VALUES
+('Alice', 30, 60000, 1),
+('Bob', 25, 50000, 2),
+('Charlie', 35, 70000, 3),
+('David', 28, 55000, NULL),
+('Eve', 40, 80000, 2);
+
+2. Basic SELECT Queries
+
+Fetch All Employees
+SELECT * FROM employees;
+
+
+Fetch Employee Names & Salaries Only
+SELECT name, salary FROM employees;
+
+
+Sort Employees by Salary (Descending Order)
+SELECT name, salary FROM employees ORDER BY salary DESC;
+
+
+Limit Results (Top 3 Highest Paid Employees)
+SELECT name, salary FROM employees 
+ORDER BY salary 
+DESC LIMIT 3;
+
+
+3. Filtering with WHERE Clause
+
+3.1 Find Employees Older than 30
+SELECT * FROM employees WHERE age > 30;
+
+
+3.2 Find Employees Earning More than 60,000
+SELECT * FROM employees WHERE salary > 60000;
+
+
+3.3 Find Employees Belonging to a Specific Department (Finance = ID 2)
+SELECT * FROM employees WHERE department_id = 2;
+
+
+3.4 Find Employees with a NULL Department (Not Assigned to Any Department)
+SELECT * FROM employees 
+WHERE department_id IS NULL;
+
+
+4. Using JOINs to Combine Data
+
+4.1 INNER JOIN (Employees with Departments)
+
+SELECT employees.name, employees.salary, departments.department_name
+FROM employees
+INNER JOIN departments ON employees.department_id = departments.id;
+
+Fetches only employees who have a department assigned.
+
+4.2 LEFT JOIN (All Employees, Even Those Without Departments)
+
+SELECT employees.name, employees.salary, departments.department_name
+FROM employees
+LEFT JOIN departments ON employees.department_id = departments.id;
+
+Fetches all employees, even if they don’t belong to a department (NULL values will appear for department names).
+
+4.3 RIGHT JOIN (All Departments, Even If They Have No Employees)
+
+SELECT employees.name, employees.salary, departments.department_name
+FROM employees
+RIGHT JOIN departments ON employees.department_id = departments.id;
+
+Fetches all departments, even if no employees are assigned.
+
+4.4 FULL OUTER JOIN (All Employees and All Departments, Even If They Don’t Match)
+
+SELECT employees.name, employees.salary, departments.department_name
+FROM employees
+FULL OUTER JOIN departments ON employees.department_id = departments.id;
