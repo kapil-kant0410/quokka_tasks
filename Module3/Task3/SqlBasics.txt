@@ -1,0 +1,187 @@
+1. SELECT Queries (Retrieving Data from a Database)
+The SELECT statement is used to retrieve data from one or more tables in a relational database.
+
+1.1 Basic SELECT Statement
+SELECT column1, column2 FROM table_name;
+SELECT name, age FROM students;
+
+1.2 Selecting All Columns
+Use * to fetch all columns.
+SELECT * FROM employees;
+
+
+1.3 Using Aliases (Renaming Columns)
+Temporary name for readability.
+SELECT name AS student_name FROM students;
+
+1.4 Using DISTINCT (Removing Duplicates)
+Fetch unique values only.
+SELECT DISTINCT department FROM employees;
+
+
+1.5 Sorting Results with ORDER BY
+
+Ascending order (default)
+SELECT * FROM employees ORDER BY salary;
+
+Descending order
+SELECT * FROM employees ORDER BY salary DESC;
+
+1.6 Limiting Results with LIMIT
+
+Fetching only the top N records.
+SELECT * FROM students LIMIT 5;
+
+
+2. Query Conditions (Filtering Data)
+SQL uses the WHERE clause to filter records based on conditions.
+
+2.1 Using WHERE Clause
+SELECT * FROM employees WHERE age > 30;
+
+
+2.2 Using Logical Operators
+
+AND: Both conditions must be true.
+SELECT * FROM employees 
+WHERE age > 30 AND department = 'HR';
+
+OR: At least one condition must be true.
+SELECT * FROM employees 
+WHERE age > 30 OR department = 'HR';
+
+NOT: Negates a condition.
+SELECT * FROM employees 
+WHERE NOT department = 'HR';
+
+
+2.3 Using Comparison Operators
+
+(Equal):
+SELECT * FROM students 
+WHERE grade = 'A';
+
+
+> (Greater than), < (Less than):
+SELECT * FROM employees 
+WHERE salary > 50000;
+
+
+>= (Greater than or equal), <= (Less than or equal):
+SELECT * FROM products
+WHERE price <= 100;
+
+
+<> or != (Not equal to):
+SELECT * FROM students 
+WHERE grade <> 'A';
+
+
+2.4 Using BETWEEN (Range Query)
+Fetch records within a numeric range.
+
+SELECT * FROM employees 
+WHERE age BETWEEN 25 AND 40;
+
+
+2.5 Using IN (Checking Multiple Values)
+Matches against multiple values.
+
+SELECT * FROM employees 
+WHERE department IN ('HR', 'Finance', 'IT');
+
+
+2.6 Using LIKE (Pattern Matching)
+
+Wildcard Operators:
+
+% (matches any sequence of characters)
+_ (matches a single character)
+
+
+Find names starting with 'A':
+SELECT * FROM employees 
+WHERE name LIKE 'A%';
+
+Find names ending with 'n':
+SELECT * FROM employees 
+WHERE name LIKE '%n';
+
+
+Find names with 'o' in the middle:
+SELECT * FROM employees 
+WHERE name LIKE '%o%';
+
+Find names with exactly four letters:
+SELECT * FROM employees 
+WHERE name LIKE '____';
+
+
+2.7 Using IS NULL (Handling Missing Values)
+Fetch records with NULL values.
+
+SELECT * FROM employees 
+WHERE manager_id IS NULL;
+
+Fetch records with non-NULL values.
+SELECT * FROM employees 
+WHERE manager_id IS NOT NULL;
+
+3. Table Joins (Combining Data from Multiple Tables)
+
+3.1 Understanding Joins
+Joins are used to retrieve related data from multiple tables based on a common key.
+
+3.2 INNER JOIN (Matching Rows Only)
+Returns only matching records from both tables.
+Example: Retrieve employees along with their department names.
+
+
+SELECT employees.name, departments.department_name
+FROM employees
+INNER JOIN departments ON employees.department_id = departments.id;
+
+
+3.3 LEFT JOIN (All from Left, Matching from Right)
+Returns all records from the left table and matching ones from the right table (NULL if no match).
+Example: Retrieve all employees and their departments, even if no department is assigned.
+
+SELECT employees.name, departments.department_name
+FROM employees
+LEFT JOIN departments ON employees.department_id = departments.id;
+
+
+3.4 RIGHT JOIN (All from Right, Matching from Left)
+Returns all records from the right table and matching ones from the left table (NULL if no match).
+Example: Retrieve all departments and their employees, even if some departments have no employees.
+
+SELECT employees.name, departments.department_name
+FROM employees
+RIGHT JOIN departments ON employees.department_id = departments.id;
+
+
+3.5 FULL OUTER JOIN (All from Both Tables)
+Returns all records from both tables, with NULLs where no match exists.
+Example: Retrieve all employees and departments, even if they are not linked.
+
+SELECT employees.name, departments.department_name
+FROM employees
+FULL OUTER JOIN departments ON employees.department_id = departments.id;
+
+
+3.6 CROSS JOIN (Cartesian Product)
+Combines every row of the first table with every row of the second table.
+Example: Get all possible employee-department pairings.
+
+SELECT employees.name, departments.department_name
+FROM employees
+CROSS JOIN departments;
+
+
+3.7 SELF JOIN (Joining a Table with Itself)
+Used when a table references itself (e.g., employees reporting to managers).
+Example: Retrieve employees and their managers.
+
+SELECT e1.name AS Employee, e2.name AS Manager
+FROM employees e1
+JOIN employees e2 ON e1.manager_id = e2.id;
