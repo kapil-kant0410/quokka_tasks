@@ -1,0 +1,118 @@
+=> Question: 01
+
+SELECT * FROM hackers;
+SELECT * FROM challenges;
+
+//SQL query
+
+-- Create a CTE (Common Table Expression) to count the number of challenges solved by each hacker
+WITH challengeCount AS 
+(SELECT hackers.hacker_id,hackers.name, count( challenges.challenge_id) AS cnt FROM hackers
+JOIN challenges 
+ON hackers.hacker_id=challenges.hacker_id
+GROUP BY hackers.hacker_id),
+
+-- Create another CTE to find the maximum challenge count
+maxAmongCount AS 
+(
+ SELECT MAX(cnt) AS max_count from challengeCount
+)
+
+-- Select all hackers who either:
+SELECT * FROM challengeCount
+WHERE cnt =(SELECT MAX(cnt) AS maxi FROM challengeCount) 
+OR cnt IN (
+  SELECT cnt FROM challengeCount
+  GROUP BY cnt
+  HAVING COUNT(cnt)=1 OR cnt>=(SELECT max_count FROM maxAmongCount)
+)
+ORDER BY cnt DESC; 
+
+
+
+=> Question: 02
+
+CREATE TABLE Functions (
+    X INT,
+    Y INT
+);
+
+INSERT INTO Functions (X, Y) VALUES
+(20, 20),
+(20, 20),
+(20, 21),
+(23, 22),
+(22, 23),
+(21, 20);
+
+SELECT * FROM Functions;
+
+//SQL query
+
+-- Select function pairs where (X, Y) and (Y, X) exist
+
+SELECT f1.X, f1.Y fROM Functions f1 
+JOIN Functions f2 
+ON f1.X = f2.Y AND f1.Y = f2.X 
+GROUP BY f1.x,f1.y
+HAVING COUNT(f1.x)>1 OR f1.x<f1.y
+ORDER BY f1.x;
+
+=> Question: 03
+
+CREATE TABLE students(
+  id INT,
+  name VARCHAR(255)
+)
+
+INSERT INTO students(id,name) VALUES
+(1,'Ashley'),
+(2,'Samantha'),
+(3,'Julia'),
+(4,'Scarlet');
+
+
+SELECT * FROM students;
+
+
+CREATE TABLE Friends(
+  id INT,
+  friend_id INT
+)
+
+INSERT INTO friends (id,friend_id) VALUES
+(1,2),
+(2,3),
+(3,4),
+(4,1)
+
+SELECT * FROM friends;
+
+
+CREATE TABLE packages (
+  id INT,
+  salary FLOAT
+)
+
+INSERT INTO packages (id,salary) VALUES
+(1,15.20),
+(2,10.06),
+(3,11.55),
+(4,12.12)
+
+SELECT * FROM packages;
+
+//SQL query
+
+-- Select student names who have a friend earning more than them
+
+SELECT students.name FROM students
+JOIN friends
+ON students.id=friends.id
+JOIN packages p1
+ON students.id=p1.id
+JOIN packages p2
+ON friends.friend_id=p2.id
+WHERE p1.salary<p2.salary
+ORDER BY p2.salary ASC;
+
