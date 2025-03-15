@@ -1,0 +1,76 @@
+1.  Project Setup
+
+
+1.1 Install and Configure Spring Boot
+    Use Spring Initializr or Maven/Gradle to generate a Spring Boot project.
+    Include required dependencies like Spring Web, Spring Data JPA, Lombok, and PostgreSQL Driver.
+
+1.2 Directory Structure
+    src/main/java/com/example/project
+
+    controller/ → Handles HTTP requests
+    service/ → Contains business logic
+    repository/ → Handles database interactions
+    model/ → Defines entity classes
+    dto/ → Defines Data Transfer Objects
+    config/ → Configuration files (CORS, Security, etc.)
+    exception/ → Custom exception handling
+    src/main/resources
+
+    application.properties (or application.yml) → Config settings
+    static/ → Frontend static files (if applicable)
+    templates/ → Thymeleaf templates (if applicable)
+
+
+2.  Core Components
+
+
+2.1 Controller Layer (Handles HTTP Requests)
+
+    Uses @RestController and @RequestMapping to define REST endpoints.   
+
+    @RestController
+    @RequestMapping("/students")
+
+    public class StudentController {
+    @Autowired private StudentService studentService;
+
+    @GetMapping("/{id}")
+    public Student getStudent(@PathVariable Long id) {
+        return studentService.getStudentById(id);
+    }
+    }
+
+2.2 Service Layer (Business Logic)
+
+    Contains application logic, ensuring controllers remain thin.
+
+    @Service
+
+    public class StudentService {
+    @Autowired private StudentRepository studentRepository;
+
+    public Student getStudentById(Long id) {
+        return studentRepository.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
+    }
+    }
+
+2.3 Repository Layer (Database Access)
+    Uses JpaRepository for CRUD operations.     
+
+2.4 Model Layer (Entities)
+    Defines database tables using JPA.       
+
+
+3.  Configuration and Security
+
+3.1 Application Properties
+    Configure database and server properties in application.properties ;
+
+    spring.datasource.url=jdbc:postgresql://localhost:5432/mydb
+    spring.datasource.username=postgres
+    spring.datasource.password=secret
+
+3.2 Security (JWT Authentication)
+    Use Spring Security to secure APIs with JWT tokens.
+    Define UserDetailsService and JWTFilter.    
