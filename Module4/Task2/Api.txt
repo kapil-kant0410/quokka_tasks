@@ -1,0 +1,65 @@
+APIs and Server Interactions
+
+APIs (Application Programming Interfaces) act as bridges between different applications, enabling them to communicate. APIs define a set of rules and protocols that allow systems to send and receive data.
+
+1. What is an API?
+API stands for Application Programming Interface.
+It allows two applications to communicate and exchange data.
+Example: A weather app fetching data from a weather service API.
+
+
+2. What are Endpoints?
+An endpoint is a specific URL (Uniform Resource Locator) where an API receives and responds to requests.
+
+3. How APIs Work? (Server-Client Interaction)
+A client (browser, mobile app) makes a request to the API.
+The server processes the request.
+The server responds with data .
+The client displays the data.
+
+
+4. Types of APIs
+
+4.1 REST API (Representational State Transfer)
+Uses HTTP methods (GET, POST, PUT, DELETE).
+Follows stateless architecture (each request is independent).
+Data is usually in JSON format.
+
+4.2 SOAP API (Simple Object Access Protocol)
+Uses XML-based messages.
+More secure but slower than REST.
+Used in enterprise applications (e.g., banking systems).
+
+4.3 GraphQL API
+Allows clients to request specific data instead of receiving a fixed response.
+More flexible than REST.
+
+4.4 WebSockets API
+Allows real-time two-way communication.
+Used in chat apps live notifications stock market updates.
+
+
+5. HTTP Methods (CRUD Operations in REST API)
+
+GET	     Fetch data     	   GET        /users/1
+POST	 Create new data	   POST       /users (with body)
+PUT	     Update existing data  PUT        /users/1
+DELETE	 Remove data	       DELETE     /users/1
+
+
+200 OK	                    Request was successful
+201 Created   	            Resource was successfully created
+400 Bad Request	            Invalid request from the client
+401 Unauthorized            Authentication is required
+403 Forbidden	            Client is not allowed to access
+404 Not Found	            Requested resource doesn’t exist
+500 Internal Server Error	Something went wrong on the server
+
+
+6. API Rate Limiting
+Prevents excessive requests from a user/IP.
+Example: Free API allows 1000 requests/day beyond that, it blocks access.
+
+
+
+
