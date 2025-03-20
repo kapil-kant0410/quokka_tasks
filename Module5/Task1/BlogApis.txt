@@ -1,0 +1,322 @@
+1. Tables
+
+   1.1 Users
+       Schema: id | name | email | password | role
+
+   1.2 Categories
+       Schema: id | author_id | category 
+
+   1.3 Posts
+       Schema: id | author_id | category_id | image | title | content | is_published
+
+   1.5 Comments
+       Schema: id | post_id | user_id | comment
+
+   1.4 Likes
+       Schema: id | user_id | comment_id | post_id    
+
+   1.5 authorSubscription
+       Schema: id | user_id | author_id
+
+
+2. API ENDPOINTS
+
+   2.1 Users Endpoints
+       
+       -> there are two types of users.
+          a. Authors
+          b. Viewers
+
+       -> we will create users table where we will assign role to the user as only author is able to post a blog.
+
+       2.1.1 Create User
+
+             post: http://localhost:8080/api/users/createUser
+
+             ->Request
+             body :  {
+             name:"abc",
+             email:"abc@gmail.com",
+             password:"*******",
+             role:"author/viewer",
+             }
+
+             ->Response
+             {
+             status:200,
+             message:"user created successfully"
+             token:"*****************************************************",
+             }
+
+       2.1.2 Get User
+
+             Get: http://localhost:8080/api/users/getUserById/{user_id}
+
+             ->Response
+             {
+             status:200,
+             message:"User fetched Successfully",
+             user:{
+                  name:"abc",
+                  email:"abc@gmail.com",
+                  role:"author/viewer",
+                  }
+             }
+
+       2.1.3 Get all Users
+
+             Get: http://localhost:8080/api/users/getAllUsers
+
+             ->Response
+             {
+             status:200,
+             message:"Users fetched Successfully",
+             users:{
+
+                    {
+                    name:"abc",
+                    email:"abc@gmail.com",
+                    role:"author/viewer",
+                    }
+
+                    {
+                    name:"xyz",
+                    email:"xyz@gmail.com",
+                    role:"author/viewer",
+                    }
+
+                   }
+             }
+
+       2.1.4 Update user by their id
+
+             put: http://localhost:8080/api/users/updateUserById/{user_id}
+
+             -> Request
+             {
+             name:"abc",
+             email:"abc@gmail.com",
+             role:"author/viewer"
+             }
+
+             ->Response
+             {
+             status:200,
+             massage:"User updated successfully with user_id",
+             }
+
+   2.2 Categories endpoints
+       Only the users who are author by their role then only those users able to create category.
+
+       2.2.1 create category by author.
+             For every author_id we have to check weather author_id is author or not.
+
+             post: http://localhost:8080/api/categories/createCategory
+
+             -> Request
+             {
+             author_id:"",
+             category:"",
+             }
+
+             -> Response
+             {
+             status:200,
+             message:"category created successfully",
+             }
+
+       2.2.2 update category by category_id.
+
+             put: http://localhost:8080/api/categories/updateCategory/{category_id}
+
+             -> Request
+             {
+             author_id:"",
+             category:"",
+             }
+
+             -> Response
+             {
+             status:200,
+             message:"category updated successfully",
+             }
+       
+   2.3 Post Creation Endpoints
+       -> only author are allowed to create or update a post.
+       -> so we have to check weather the current user is author or not while he tries to create a post.
+
+       2.3.1 Create post by author.
+
+             post: http://localhost:8080/api/posts/createPost
+
+             ->Request
+             {
+             author_id:1,
+             category_id:2,
+             image:"bkjeldwxns.jpg",
+             title:"xyz",
+             content:"abc",
+             is_published:false,
+             }
+
+             ->response
+             {
+             status:200,
+             message:"post created successfully",
+             }
+
+       2.3.2 Get all posts.
+            -> return all posts created by authors.
+
+             get: http://localhost:8080/api/posts/getAllPosts
+
+             -> response
+             {
+             {
+             post 1
+             }
+             {
+             post 2
+             }
+             }
+
+       2.3.3 Update post.
+            -> update the post with post id.
+
+            put: http://localhost:8080/api/posts/updatePost/{post_id}
+
+            -> request
+            {
+            author_id:,
+            category_id:,
+            image:,
+            title:,
+            content:,
+            is_published:,
+            }
+
+            ->response
+            {
+            status:200,
+            message:"post updated successfully",
+            }
+
+   2.4 Comments endpoints
+
+       2.4.1 Comment on a post
+            -> any user/author is allowed to comment on the post
+
+            post: http://localhost:8080/api/comments/commentByUser
+
+            request->
+            {
+            post_id,
+            user_id,
+            comment:"xyz",
+            }
+
+            response->
+            {
+            status:200,
+            message:"Comment added to the post_id by user_id"
+            }
+
+       2.4.2 update a comment
+
+            put: http://localhost:8080/api/comments/updateComment/{comment_id}
+
+            request->
+            {
+            post_id,
+            user_id,
+            comment:"",
+            }
+
+            response->
+            {
+            status:200,
+            message:"comment updated successfully",
+            }
+
+       2.4.3 delete a comment
+
+            Delete: http://localhost:8080/api/comments/deleteCommentByCommentId/{comment_id}
+
+            response->
+            {
+            status:200,
+            message:"Comment deleted successfully"
+            }
+
+       2.4.4 Get all comments for particular post_id
+
+            get: http://localhost:8080/api/comments/getAllCommentsForParticularId/{post_id}
+
+            response->
+            {
+            {
+            comment details 1
+            }
+            {
+            comment details 2
+            }
+            {
+            comment details 3
+            }
+            }
+
+   2.5 Like endpoints
+       -> we can like a post, or maybe we can like a comment.
+
+       2.5.1 like a post or a comment.
+            -> We can pass post_id or comment_id in body.
+            -> If client pass post_id then we will store post_id and comment_id will be null.
+            -> If client pass comment_id then we will store comment_id post_id will be null.
+
+            post: http://localhost:8080/api/likes/likePostOrComment
+
+            request->
+            {
+            post_id or comment_id,
+            user_id, // to store user info which user like the comment or post.
+            }
+
+       2.5.2 unlike or remove like from a post or comment
+
+            delete: http://localhost:8080/api/likes/removeLikeFromPostOrComment/{like_id}
+
+            response->
+            {
+            status:200(ok),
+            message:"comment deleted successfully",
+            }
+
+
+   2.6 Author subscription
+       -> This endpoint will mark the authors for the users.
+
+       2.6.1 Mark the author_id for the user_id if a user subscribed to the author.
+
+            post: http://localhost:8080/api/authorSubscriptions/addSubscription
+
+            -> request
+            {
+            user_id,
+            author_id,
+            }
+
+            -> response
+            {
+            status:200(ok),
+            message:"Marked author_id successfully for the corresponding user_id",
+            }
+
+       2.6.2 Delete the author subscription id for the particular user_id
+
+            delete: http://localhost:8080/api/authorSubscriptions/deleteSubscription/{deleteAuthorSubscriptionId}
+
+            -> response
+            {
+            status:200(ok),
+            message:"Author subscription deleted successfully for the corresponding user_id"
+            }
