@@ -320,3 +320,5 @@
             status:200(ok),
             message:"Author subscription deleted successfully for the corresponding user_id"
             }
+
+BlogApplicationDatabaseSchema image URL:  https://drive.google.com/file/d/1t8AE6VpEbFZuNFHKF1ZGniTl3N5OyO5b/view?usp=sharing
