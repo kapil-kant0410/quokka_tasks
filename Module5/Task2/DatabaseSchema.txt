@@ -1,0 +1,170 @@
+1. Tables
+
+   1.1 Users
+       Schema: id | name | email | password | role
+
+   1.2 Categories
+       Schema: id | category_name | description
+
+   1.3 Posts
+       Schema: id | author_id | category_id | image | title | content | is_published
+
+   1.4 Comments
+       Schema: id | user_id | post_id | comment
+
+   1.5 Likes
+       Schema: id | user_id | comment_id | post_id
+
+   1.6 authorSubscription
+       Schema: id | user_id | author_id
+
+
+2. Tables Relationships
+
+   2.1 Authors/Users and Categories
+       -> An author/User can have multiple categories.
+       -> A category can be associated with multiple author/user.
+       -> An author can create new category only if that category not present in category table.
+       -> we will allow to create category only if it follows specific format like only have one space between to words and not any symbol allowed only lowercase characters no space at start and at end.
+       -> no relationship.
+
+   2.2 Authors/Users and Posts
+       -> An author/user can create multiple posts.
+       -> A post can be associated to one author.
+       -> one to many.
+
+   2.3 Users and comments.
+       -> An user can have multiple comments.
+       -> A comment can only be associated to one user.
+       -> one to many.
+
+   2.4 Users and likes.
+       -> An user can have multiple likes.
+       -> A like is associated to only one user.
+       -> one to many.
+
+   2.5 Users and authorSubscription
+       -> An user can subscribe to multiple authors.
+       -> An author can be subscription of multiple users.
+       -> many to many.
+
+   2.6 Posts and categories.
+       -> A post can belong to only one category.
+       -> a category can belong to multiple post.
+       -> many to one.
+
+   2.7 Comments and posts.
+       -> A comment can belong to one post.
+       -> A post can have multiple comments.
+       -> many to one
+
+   2.8 Likes and comments.
+       -> A comment have likes.
+       -> many to one.
+
+   2.9 Likes and posts.
+       -> A post have many likes.
+       -> many to one.
+
+3. Models of blog application.
+
+   -> Models are used to define structure of data that will store in database.
+
+   1) Users Model
+      -> Contains two types of users authors and viewers.
+
+      CREATE TABLE Users(
+      id PRIMARY KEY SERIAL,
+      name VARCHAR (255) NOT NULL,
+      email VARCHAR (255) UNIQUE NOT NULL,
+      password TEXT NOT NULL,
+      role VARCHAR(255) NOT NULL CHECK(role IN ('author','viewer')),
+      )
+
+   2) Category Model
+      -> Category are the different categories that will be designed to give categories to different posts.
+
+      CREATE TABLE Categories(
+      id PRIMARY KEY SERIAL,
+      category_name CHECK (category_name ~ '^[a-z]+( [a-z]+)*$' AND category_name NOT LIKE ' %' AND category_name NOT LIKE '%'),
+      description TEXT NOT NULL
+      )
+
+   3) Posts Model
+      -> It will store the information of posts that is associated to the author and category.
+
+      CREATE TABLE Posts(
+      id PRIMARY KEY SERIAL,
+      author_id INT NOT NULL ,
+      category_id INT NOT NULL ,
+      image TEXT,
+      title VARCHAR(255),
+      content TEXT,
+      is_published BOOLEAN DEFAULT FALSE NOT NULL,
+      CONSTRAINT FOREIGN KEY (author_id)   REFERENCES Users(id) ON DELETE CASCADE,
+      CONSTRAINT FOREIGN KEY (category_id) REFERENCES Categories(id) ON DELETE CASCADE
+      )
+
+   4) Comment Model
+      -> it will create comment that are associated with posts.
+
+      CREATE TABLE Comments(
+      id PRIMARY KEY SERIAL,
+      post_id INT NOT NULL FOREIGN KEY,
+      user_id INT NOT NULL FOREIGN KEY,
+      comment TEXT,
+      CONSTRAINT FOREIGN KEY (post_id) REFERENCES Posts(id) ON DELETE CASCADE,
+      CONSTRAINT FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE
+      )
+
+   5) Like Model
+      -> Like is associated to comment.
+      -> Also like is associated to post.
+      -> but a like is associated to only one either post or comment.
+
+      CREATE TABLE likes (
+          id SERIAL PRIMARY KEY,
+          user_id INT NOT NULL,
+          comment_id INT,
+          post_id INT,
+          created_at TIMESTAMP DEFAULT NOW(),
+          CONSTRAINT  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+          CONSTRAINT  FOREIGN KEY (comment_id) REFERENCES comments(id) ON DELETE CASCADE,
+          CONSTRAINT  FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
+          CONSTRAINT check_like_only_one CHECK (
+              (comment_id IS NOT NULL AND post_id IS NULL) OR
+              (post_id IS NOT NULL AND comment_id IS NULL)
+          )
+      );
+
+   6) AuthorSubscription Model
+      -> A user can subscribe to multiple author.
+      -> User can only able to subscribe if that is author.
+      -> A user can have multiple author.
+      -> An author can be allocated to multiple users.
+      -> Authors are allowed to subscribe other authors.
+      -> we will not allow if an author want to subscribe to self.
+      -> Author id and user is come from users table.
+      -> Schema: id | user_id | author_id
+
+      CREATE TABLE author_subscriptions (
+          id SERIAL PRIMARY KEY,
+          user_id INT NOT NULL,
+          author_id INT NOT NULL,
+          subscribed_at TIMESTAMP DEFAULT NOW(),
+
+          // Foreign keys referencing the users table
+          CONSTRAINT  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+          CONSTRAINT  FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE CASCADE,
+
+          // Ensure a user cannot subscribe to themselves
+          CONSTRAINT check_no_self_subscription CHECK (user_id <> author_id),
+
+          // Ensure a user cannot subscribe to the same author multiple times
+          UNIQUE (user_id, author_id)
+      );
+
+
+
+
+
