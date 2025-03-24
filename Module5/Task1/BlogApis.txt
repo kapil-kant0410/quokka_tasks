@@ -321,4 +321,4 @@
             message:"Author subscription deleted successfully for the corresponding user_id"
             }
 
-BlogApplicationDatabaseSchema image URL:  https://quokkalabsllp-my.sharepoint.com/personal/kapil_kant_quokkalabs_com/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fkapil%5Fkant%5Fquokkalabs%5Fcom%2FDocuments%2FblogApplicationDatabaseSchemaKapil%5FKant%2Ejpg&parent=%2Fpersonal%2Fkapil%5Fkant%5Fquokkalabs%5Fcom%2FDocuments&ga=1
+
