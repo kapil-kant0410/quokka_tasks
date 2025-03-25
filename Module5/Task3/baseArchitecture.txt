@@ -1,0 +1,59 @@
+
+-> Basic architecture of blog application.
+
+blogApplication/
+src/
+   main/
+       java/
+           com/
+              ql/
+                  BlogApplication.java
+                  |- controllers
+                     |- UserController.java                      //handle user apis.
+                     |- PostController.java                     //handle post apis.
+                     |- CommentController.java                 //handle comment apis.
+                     |- LikeController.java                   //handle likes apis.
+                     |- CategoryController.java              //handle categories api.
+                     |- AuthorSubscriptionController.java   //handle authorSubscription apis.
+
+                  |- entities
+                     |- User.java                       //User entity.
+                     |- Role.java                      //Role entity.
+                     |- Post.java                     //Post entity.
+                     |- Comment.java                 //Comment entity.
+                     |- Category.java               //Category entity.
+                     |- Likes.java                 //Likes entity.
+                     |- AuthorSubscription.java   //AuthorSubscription entity.
+
+                  |- Repositories
+                     |- UserRepository.java                     //User crud operations.
+                     |- RoleRepository.java                    //Role fetching
+                     |- PostRepository.java                   //post queries
+                     |- CommentRepository.java               //comment queries
+                     |- LikeRepository.java                 //like queries
+                     |- CategoryRepository.java            //category queries
+                     |- AuthorSubscriptionRepository.java //Author Subscription queries
+
+                  |- Services
+                      |- UserService.java                      //handle business logic for users.
+                      |- PostService.java                     //handle business logic for posts.
+                      |- CommentService.java                 //handle business logic for comments.
+                      |- LikeService.java                   //handle business logic for likes.
+                      |- CategoryService.java              //handle business logic for category.
+                      |- AuthorSubscriptionService.java   //handle business logic for author request.
+
+                  |- dtos
+                      |- UserDto.java                          //data transfer object for users.
+                      |- PostDto.java                         //data transfer object for posts.
+                      |- CommentDto.java                     //dto for comments.
+                      |- LikeDto.java                       //dto for likes.
+                      |- CategoryDto.java                  //dto for category.
+                      |- SubscriptionDto.java             //dto for subscription
+
+                  |-exceptions
+                      |- CustomExceptionHandler.java  //handle exception that comes globally
+
+       |- resources
+          |- application.properties  //database & security configuration
+
+|- pom.xml

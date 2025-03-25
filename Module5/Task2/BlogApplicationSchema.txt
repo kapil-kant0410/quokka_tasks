@@ -1,7 +1,10 @@
 1. Tables
 
+   1.0 Roles
+       Schema: id | role_name
+
    1.1 Users
-       Schema: id | name | email | password | role
+       Schema: id | name | email | password | role_id
 
    1.2 Categories
        Schema: id | category_name | description
@@ -20,6 +23,11 @@
 
 
 2. Tables Relationships
+
+   2.0 Users and Roles
+       -> A user can have multiple roles.
+       -> multiple roles can be assigned to one user.
+       -> many to many
 
    2.1 Authors/Users and Categories
        -> An author/User can have multiple categories.
@@ -70,15 +78,23 @@
 
    -> Models are used to define structure of data that will store in database.
 
+   0) Roles Model
+      -> Roles table contains many roles as author/viewer/admin.
+
+      CREATE TABLE Roles(
+      id PRIMARY KEY SERIAL,
+      role_name VARCHAR(255)
+      )
+
    1) Users Model
-      -> Contains two types of users authors and viewers.
 
       CREATE TABLE Users(
       id PRIMARY KEY SERIAL,
       name VARCHAR (255) NOT NULL,
       email VARCHAR (255) UNIQUE NOT NULL,
       password TEXT NOT NULL,
-      role VARCHAR(255) NOT NULL CHECK(role IN ('author','viewer')),
+      role_id  INT NOT NULL,
+      CONSTRAINT FOREIGN KEY (role_id) REFERENCES Roles(id) ON DELETE CASCADE
       )
 
    2) Category Model
