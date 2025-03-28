@@ -6,19 +6,22 @@
    1.1 Users
        Schema: id |role_id | name | email | password
 
-   1.2 Categories
-       Schema: id | author_id | category 
+   1.2 User_roles
+       Schema: id | user_id | role_id
 
-   1.3 Posts
-       Schema: id | author_id | category_id | image | title | content | is_published
+   1.3 Categories
+       Schema: id  | name
+
+   1.4 Posts
+       Schema: id | author_id | category_id | image_url | title | content | is_published
 
    1.5 Comments
-       Schema: id | post_id | user_id | comment
+       Schema: id | post_id | user_id | content
 
-   1.4 Likes
+   1.6 Likes
        Schema: id | user_id | comment_id | post_id    
 
-   1.5 authorSubscription
+   1.7 authorSubscription
        Schema: id | user_id | author_id
 
 
@@ -42,13 +45,19 @@
              email:"abc@gmail.com",
              password:"*******",
              role:"author/viewer",
+             "author_details": {
+                     "bio": "I have 5 years of experience in tech blogging.",
+                     "portfolio_url": "https://myblog.com",
+                     "experience_years": 5
+             } // OPTIONAL IF ROLE CHOOSE BY USER IS AUTHOR
              }
 
              ->Response
              {
-             status:200,
+             status:true,
+             code:200,
              message:"user created successfully"
-             token:"*****************************************************",
+             data: {}
              }
 
        2.1.2 Get User
@@ -57,9 +66,10 @@
 
              ->Response
              {
-             status:200,
+             status:true,
+             code:200,
              message:"User fetched Successfully",
-             user:{
+             data:{
                   name:"abc",
                   email:"abc@gmail.com",
                   role:"author/viewer",
@@ -72,9 +82,10 @@
 
              ->Response
              {
-             status:200,
+             status:true,
+             code:200,
              message:"Users fetched Successfully",
-             users:{
+             data:{
 
                     {
                     name:"abc",
@@ -100,48 +111,68 @@
              name:"abc",
              email:"abc@gmail.com",
              role:"author/viewer"
+             "author_details": {
+             "bio": "I have 5 years of experience in tech blogging.",
+             "portfolio_url": "https://myblog.com",
+             "experience_years": 5
+             } // OPTIONAL IF ROLE CHOOSE BY USER IS AUTHOR
              }
 
              ->Response
              {
-             status:200,
-             massage:"User updated successfully with user_id",
+             status:true,
+             code:200,
+             message:"User updated successfully with user_id",
+             data:{}
              }
 
    2.2 Categories endpoints
        Only the users who are author by their role then only those users able to create category.
 
        2.2.1 create category by author.
-             For every author_id we have to check weather author_id is author or not.
+             -> For every author_id we have to check weather author_id is author or not.
+             -> If category name already in the category table then will not create in this request.
 
              post: http://localhost:8080/api/categories/createCategory
 
              -> Request
              {
              author_id:"",
-             category:"",
+             name:"",
              }
 
              -> Response
              {
-             status:200,
+             status:true,
+             code:200,
              message:"category created successfully",
+             data:{}
+             }
+
+             {
+             status:false,
+             code:409,
+             message:"Category already exists.",
+             data:{}
              }
 
        2.2.2 update category by category_id.
 
-             put: http://localhost:8080/api/categories/updateCategory/{category_id}
+             put: http://localhost:8080/api/categories/updateCategory
 
              -> Request
              {
              author_id:"",
-             category:"",
+             name:"",
+             updateReason:"spelling not correct for the particular category {name}"
              }
 
              -> Response
              {
-             status:200,
+             status:true,
+             code:200,
              message:"category updated successfully",
+             data:{}
              }
        
    2.3 Post Creation Endpoints
@@ -164,8 +195,10 @@
 
              ->response
              {
-             status:200,
+             status:true,
+             code:200,
              message:"post created successfully",
+             data:{}
              }
 
        2.3.2 Get all posts.
@@ -200,8 +233,10 @@
 
             ->response
             {
-            status:200,
+            status:true,
+            code:200,
             message:"post updated successfully",
+            data:{}
             }
 
    2.4 Comments endpoints
@@ -220,8 +255,10 @@
 
             response->
             {
-            status:200,
-            message:"Comment added to the post_id by user_id"
+            status:true,
+            code:200,
+            message:"Comment added to the post_id by user_id",
+            data:{}
             }
 
        2.4.2 update a comment
@@ -230,15 +267,17 @@
 
             request->
             {
-            post_id,
+            comment_id,
             user_id,
             comment:"",
             }
 
             response->
             {
-            status:200,
+            status:true,
+            code:200,
             message:"comment updated successfully",
+            data:{}
             }
 
        2.4.3 delete a comment
@@ -247,8 +286,10 @@
 
             response->
             {
-            status:200,
-            message:"Comment deleted successfully"
+            status:true,
+            code:200,
+            message:"Comment deleted successfully",
+            data:{}
             }
 
        2.4.4 Get all comments for particular post_id
@@ -290,8 +331,10 @@
 
             response->
             {
-            status:200(ok),
+            status:true,
+            code:200(ok),
             message:"comment deleted successfully",
+            data:{}
             }
 
 
@@ -310,18 +353,28 @@
 
             -> response
             {
-            status:200(ok),
+            status:true,
+            code:200(ok),
             message:"Marked author_id successfully for the corresponding user_id",
+            data:{}
             }
 
        2.6.2 Delete the author subscription id for the particular user_id
 
             delete: http://localhost:8080/api/authorSubscriptions/deleteSubscription/{deleteAuthorSubscriptionId}
 
+            ->
+            {
+            user_id:,
+            author_id,
+            }
+
             -> response
             {
-            status:200(ok),
+            status:true,
+            code:200(ok),
             message:"Author subscription deleted successfully for the corresponding user_id"
+            data:{}
             }
 
 

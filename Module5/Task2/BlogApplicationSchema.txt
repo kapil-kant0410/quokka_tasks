@@ -7,13 +7,13 @@
        Schema: id | name | email | password | role_id
 
    1.2 Categories
-       Schema: id | category_name | description
+       Schema: id | category_name
 
    1.3 Posts
-       Schema: id | author_id | category_id | image | title | content | is_published
+       Schema: id | author_id | category_id | image_url | title | content | is_published
 
    1.4 Comments
-       Schema: id | user_id | post_id | comment
+       Schema: id | user_id | post_id | content
 
    1.5 Likes
        Schema: id | user_id | comment_id | post_id
@@ -92,6 +92,7 @@
       id PRIMARY KEY SERIAL,
       name VARCHAR (255) NOT NULL,
       email VARCHAR (255) UNIQUE NOT NULL,
+      image_url STRING,
       password TEXT NOT NULL,
       role_id  INT NOT NULL,
       CONSTRAINT FOREIGN KEY (role_id) REFERENCES Roles(id) ON DELETE CASCADE
@@ -102,8 +103,7 @@
 
       CREATE TABLE Categories(
       id PRIMARY KEY SERIAL,
-      category_name CHECK (category_name ~ '^[a-z]+( [a-z]+)*$' AND category_name NOT LIKE ' %' AND category_name NOT LIKE '%'),
-      description TEXT NOT NULL
+      category_name CHECK (category_name ~ '^[a-z]+( [a-z]+)*$' AND category_name NOT LIKE ' %' AND category_name NOT LIKE '%')
       )
 
    3) Posts Model
@@ -113,7 +113,7 @@
       id PRIMARY KEY SERIAL,
       author_id INT NOT NULL ,
       category_id INT NOT NULL ,
-      image TEXT,
+      image_url TEXT,
       title VARCHAR(255),
       content TEXT,
       is_published BOOLEAN DEFAULT FALSE NOT NULL,
@@ -128,7 +128,7 @@
       id PRIMARY KEY SERIAL,
       post_id INT NOT NULL FOREIGN KEY,
       user_id INT NOT NULL FOREIGN KEY,
-      comment TEXT,
+      content TEXT,
       CONSTRAINT FOREIGN KEY (post_id) REFERENCES Posts(id) ON DELETE CASCADE,
       CONSTRAINT FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE
       )
