@@ -1,0 +1,481 @@
+1. Tables
+
+    1.0  RoleType (enum)
+        ROLE_ADMIN
+        ROLE_CUSTOMER
+        ROLE_VIEWER
+
+    1.1  Users
+        Schema: id | name | email | hash_password | role(RoleType) | phone_no
+
+    1.3  Categories
+        Schema: id | name | descreption     
+
+    1.2  Products
+        Schema: id | name | quantity | descreption | price | is_active | category_id | seller_id | image_url | is_deleted  
+
+    1.4  Orders
+        Schema: id | user_id | total_amount | status | created_at
+
+    1.5  Order_items
+        Schema: id | order_id | product_id | quantity | price
+
+    1.6  Reviews
+        Schema: id | product_id | user_id | rating | comment | created_at    
+
+    1.7  Cart 
+        Schema: id | user_id | product_id | quantity           
+
+ 
+
+
+1. USERS / AUTHENTICATION
+
+    1.1  Register User
+        POST /api/auth/register
+
+        // Request
+        { 
+         "name": "John Doe",
+         "email": "john@example.com",
+         "password": "password123",
+         "phoneNo": "1234567890",
+         "role": "ROLE_CUSTOMER"
+        }
+
+       // Response (201)
+       {
+       "status": "success",
+       "code": 201,
+       "message": "User registered successfully",
+       "data": { "id": 1, "email": "john@example.com" }
+       }
+
+    1.2 Login User
+        POST /api/auth/login
+
+       // Request
+       {
+       "email": "john@example.com",
+       "password": "password123"
+       }
+
+       // Response (200)
+       {
+       "status": "success",
+       "code": 200,
+       "message": "Login successful",
+       "data": {
+               "accessToken": "jwt_token",
+               "refreshToken": "jwt_token",
+               "user": { "id": 1, "name": "John", "role": "ROLE_CUSTOMER" }
+               }
+        }
+
+2. CATEGORIES 
+
+    2.1 Create Category (Admin only)
+        POST /api/category/create
+
+        // Request
+        { "name": "Electronics", "description": "Phones and gadgets" }
+
+        // Response (201)
+        { 
+        "status": "success",
+        "code": 201,
+        "message": "User registered successfully",
+        "data": { "id": 1, "name": "xxxxxx","description": "Phones and gadgets"}
+        }
+
+    2.2 Get All Categories
+        GET /api/category/get-all 
+
+        // Response
+        {
+        "status": "success",
+        "code": 200,
+        "message": "Categories retrieved",
+        "data": [ { "id": 1, "name": "Electronics", ... } ]
+        }
+
+3. PRODUCTS
+
+    3.1 Add Product (Seller only)
+        POST /api/product/create
+
+        {
+        "name": "iPhone 14",
+        "quantity": 5,
+        "description": "Latest model",
+        "price": 999.99,
+        "isActive": true,
+        "categoryId": 1,
+        "imageUrl": "https://cdn.com/img.jpg"
+        }
+
+        // Response
+        {
+        "status": "success",
+        "code": 200,
+        "message": "Product saved successfully",
+        "data": { "id": 1, "name": "iPhone 14", ... }
+        }
+   
+    3.2 Get All Products
+        GET /api/product/get-all
+
+        // Response
+        {
+        "status": "success",
+        "code": 200,
+        "message": "Product saved successfully",
+        "data": [{ "id": 1, "name": "iPhone 14", ... }]
+        }
+
+    3.3 Get product by id  
+        GET /api/product/get-by-id  
+
+        // Response
+        {
+        "status": "success",
+        "code": 200,
+        "message": "Product saved successfully",
+        "data": { "id": 1, "name": "iPhone 14", ... }
+        }
+
+    3.4 Update Product (Seller)
+        PUT /api/product/update/{product_id}
+
+        //Request
+        {
+        "name": "iPhone 14",
+        "quantity": 5,
+        "description": "Latest model",
+        "price": 999.99,
+        "isActive": true,
+        "categoryId": 1,
+        "imageUrl": "https://cdn.com/img.jpg"
+        }
+
+        // Response
+        {
+        "status": "success",
+        "code": 200,
+        "message": "Product updated successfully",
+        "data": { "id": 1, "name": "iPhone 14", ... }
+        }
+
+    3.5 Delete Product (Soft Delete)    
+        DELETE /api/products/{product_id}
+
+        just set isDeleted=true
+
+        // Response
+        {
+        "status": "success",
+        "code": 200,
+        "message": "Product deleted successfully",
+        "data": { "id": 1, "name": "iPhone 14", "isDeleted":true ...}
+        }
+
+4. CART
+  
+    4.1 Add to Cart
+        POST /api/cart
+
+        // Request
+        {
+        "productId": 2,
+        "quantity": 1
+        }
+
+        // Response
+        {
+        "status": "success",
+        "code": 200,
+        "message": "Added to cart",
+        "data": { product_info , quantity }
+        }
+
+    4.2 Get User cart
+        Get /api/cart
+
+        // Response
+        {
+        "status": "success",
+        "code": 200,
+        "message": "Cart items",
+        "data": [{ product_info , quantity },...]
+        }
+
+    4.3 Remove Item from cart
+        DELETE /api/cart/{itemId}
+
+        // Response
+        {
+        "status": "success",
+        "code": 200,
+        "message": "Removed cart item",
+        "data": { product_info , quantity }
+        }
+           
+5. ORDERS
+
+    5.1 Place order
+        Post /api/order/create
+
+        {
+         user_id:,
+         total_amount,
+         status:,
+        }
+
+    5.2 Get my Orders with all items inside that order
+        Get /api/order/get-all   
+
+        {
+        "orders": [
+                  { order_id,total_amount,status,order_items:[...] },
+                  { order_id,total_amount,status, order_items:[...] }
+                 ]
+        } 
+     
+    5.3 Get order by id with all items inside that order
+        Get /api/order/get-order/{order_id}
+        only user can get only its orders
+
+        {
+            order_id,
+            total_amount,
+            status
+            items:[{},{},{}]
+        } 
+
+6. ORDER_ITEMS  
+    
+    6.1 Get all products inside an order by order id
+        Get /api/order/get-all-items/{order_id} 
+
+        {
+           "id": 12,
+           "totalAmount": 299.99,
+           "status": "CONFIRMED",
+           items: [{
+                     "productId": 2,
+                     "quantity": 1,
+                     "price": 100.00
+                   },{
+                     "productId": 2,
+                     "quantity": 1,
+                     "price": 100.00
+                     },{
+                        "productId": 2,
+                        "quantity": 1,
+                        "price": 100.00
+                       }]
+        }
+
+7. REVIEWS 
+
+   7.1 Add review on product
+       /api/review/create
+
+       //Request
+       {
+       "productId": 1,
+       "rating": 4,
+       "comment": "Very good quality!"
+       }
+
+       //Response
+       {
+       "status": "success",
+       "code": 201,
+       "message": "Review submitted successfully",
+       "data": {
+               "id": 10,
+               "productId": 1,
+               "userId": 5,
+               "rating": 4,
+               "comment": "Great product, highly recommend!",
+               "createdAt": "2025-05-01T14:30:00Z"
+              }
+       }
+
+    7.2 Get Reviews for a Product
+        GET /api/products/{productId}/reviews   
+
+        {
+        "status": "success",
+        "code": 200,
+        "message": "Reviews fetched successfully",
+        "data": [
+                {
+                "id": 10,
+                "userId": 5,
+                "userName": "John Doe",
+                "rating": 4,
+                "comment": "Great product!",
+                "createdAt": "2025-05-01T14:30:00Z"
+                },
+                {
+                "id": 11,
+                "userId": 6,
+                "userName": "Alice",
+                "rating": 5,
+                "comment": "Loved it!",
+                "createdAt": "2025-05-01T15:00:00Z"
+                }
+                ]
+        }
+
+    7.3 Update a Review
+        PUT /api/reviews/{review_id}
+        Only the user who wrote the review 
+
+        {
+        "rating": 5,
+        "comment": "Updated: even better after more use!"
+        }
+
+        {
+        "status": "success",
+        "code": 200,
+        "message": "Review updated successfully",
+        "data": {
+                "id": 10,
+                "productId": 1,
+                "userId": 5,
+                "rating": 5,
+                "comment": "Updated: even better after more use!",
+                "createdAt": "2025-05-01T14:30:00Z"
+                 }
+        }
+
+    7.4 Delete a Review
+        DELETE /api/reviews/{review_id}
+        Only the user who wrote the review
+
+        {
+          "status": "success",
+          "code": 200,
+          "message": "Review deleted successfully",
+          "data": {
+            "id": 10,
+            "productId": 1,
+            "userId": 5,
+            "rating": 5,
+            "comment": "Updated: even better after more use!",
+            "createdAt": "2025-05-01T14:30:00Z"
+          }
+        }
+
+8. CART
+
+   1. Add to Cart
+   POST /api/cart/add
+
+   {
+     "productId": 1,
+     "quantity": 2
+   }
+
+   {
+     "status": "success",
+     "code": 201,
+     "message": "Product added to cart successfully",
+     "data": {
+       "id": 101,
+       "userId": 5,
+       "productId": 1,
+       "quantity": 2
+     }
+   }
+
+   2. Get All Cart Items for a User
+      GET /api/cart/get-all
+
+   {
+     "status": "success",
+     "code": 200,
+     "message": "Cart items fetched successfully",
+     "data": [
+       {
+         "id": 101,
+         "userId": 5,
+         "productId": 1,
+         "quantity": 2
+       },
+       {
+         "id": 102,
+         "userId": 5,
+         "productId": 3,
+         "quantity": 1
+       }
+     ]
+   }
+
+   3. Update Cart Item Quantity
+      PUT /api/cart/{cartItemId}
+
+      {
+        "quantity": 4
+      }
+
+      {
+        "status": "success",
+        "code": 200,
+        "message": "Cart item updated successfully",
+        "data": {
+          "id": 101,
+          "userId": 5,
+          "productId": 1,
+          "quantity": 4
+        }
+      }
+
+   4. Remove Item from Cart
+      DELETE /api/cart/{cartItemId}
+
+      {
+        "status": "success",
+        "code": 200,
+        "message": "Cart item removed successfully",
+        "data": {
+          "id": 101,
+          "userId": 5,
+          "productId": 1,
+          "quantity": 2
+        }
+      }
+
+   5. Clear Entire Cart
+      DELETE /api/cart
+      
+   {
+     "status": "success",
+     "code": 200,
+     "message": "All cart items cleared successfully",
+     "data": []
+   }
+
+
+
+
+        
+
+   
+
+
+
+     
+
+
+
+
+
+  
+
+ 
+         

@@ -1,0 +1,60 @@
+Deploying a Spring Boot App to AWS EC2
+
+Step:1 Created aws account 
+
+Step:2 Created ec2 instance
+
+Created an EC2 Instance ( Virtual Server)
+Go to AWS Console → EC2 → Instances → Launch Instance.
+
+Choose OS: Selected Ubuntu.
+
+Instance Type: Use t2.micro (Free Tier eligible).
+
+Key Pair: Created a new key pair (BlogApplication.pem) and download it. This is like the password to log in to the server.
+
+Security Group (Firewall):
+
+Allowed SSH (port 22) - for logging into the server.
+
+Allowed HTTP (port 80) - for web traffic.
+
+Allowed Custom TCP (port 8080) - Spring Boot runs here.
+
+Allowed Custom TCP (port 5432) - Postgres server
+
+Step 3: Connected to EC2 Server
+
+Go to the directory where your BlogApplication.pem key file is downloaded.
+chmod 400 your-key.pem (change file permissions)
+ssh -i key.pem ec2-user@public-ip
+
+Step 3:Installed Java on EC2
+
+sudo apt update -y
+sudo apt install java-17-amazon-corretto -y  (install java)
+java -version (check java version)
+
+Step 4:Installed postgres on server
+
+Installed postgres on the server.
+Open port 5432 for connection from the ec2 public ip.
+Connected to postgres from ec2.
+
+Step 5: uploaded jar file to ec2 from local
+
+scp -i "C:/Users/Kapil Kant/OneDrive/Desktop/pem_files/BlogApplication.pem" target/BlogApplication-0.0.1-SNAPSHOT.jar ubuntu@174.129.152.55:~
+copy         local pem file storage                                     target file inside BlogApplication root directory       public ec2 ip
+
+Running this command from the root directory of BlogApplication.
+
+Step 6: Created application.propperties on server 
+
+Created inside /home/ubuntu/blog-config/application.propperties
+
+Step 7: Run jar file on server
+
+java -jar /home/ubuntu/BlogApplication-0.0.1-SNAPSHOT.jar --spring.config.location=file:/home/ubuntu/blog-config/application.properties
+Runs this command on ec2 server to run the jar file.
+
+Step 8: Test all the apis from the server.
