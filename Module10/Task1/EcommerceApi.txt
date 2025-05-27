@@ -1,35 +1,67 @@
 1. Tables
 
-    1.0  RoleType (enum)
-        ROLE_ADMIN
-        ROLE_CUSTOMER
-        ROLE_VIEWER
+    ENUM RoleType: ('ROLE_ADMIN', 'ROLE_CUSTOMER', 'ROLE_VIEWER')
+    ENUM AddressType: ('HOME', 'WORK', 'OTHER')
+    ENUM PaymentType: ('CARD', 'UPI', 'BANK_TRANSFER')
+    ENUM OrderStatus: ('PENDING', 'PAID', 'SHIPPED', 'DELIVERED', 'CANCELLED', 'REFUNDED')
+
 
     1.1  Users
-        Schema: id | name | email | hash_password | role(RoleType) | phone_no
+         Schema: id | name | email | hash_password | role(RoleType) | phone_no | created_at | updated_at
 
-    1.3  Categories
-        Schema: id | name | descreption     
+    1.2  User_addresses
+         Schema: id (PK) | user_id (FK) | address_type (AddressType) | line1 | line2 | city | state | postal_code | country | is_default | created_at
 
-    1.2  Products
-        Schema: id | name | quantity | descreption | price | is_active | category_id | seller_id | image_url | is_deleted  
+    1.3  user_payment_methods
+         Schema: id (PK) | user_id (FK) | payment_type (PaymentType) | provider | account_number | expiry_date | is_default | created_at
 
-    1.4  Orders
-        Schema: id | user_id | total_amount | status | created_at
+    1.4  Categories
+         Schema: id (PK) | name | description | image_url | is_active | created_at | updated_at
 
-    1.5  Order_items
-        Schema: id | order_id | product_id | quantity | price
+    1.5  Products
+         Schema: id | name              | description |   brand    | category_id (FK) | seller_id (FK) | image_url | avg_rating | is_active | is_deleted | created_at
+                 1     MacBook Pro M1                    MacBook                               -----                   true
 
-    1.6  Reviews
-        Schema: id | product_id | user_id | rating | comment | created_at    
+    1.6  product_attributes
+         Schema: id | product_id(FK) | attribute_name | attribute_value
+                  1    1                 RAM         8
+                  2    1                 RAM         16
+                  3    1               STORAGE       128
+                  4    1               STORAGE       256
+                  5    1               COLOR         BLACK
+                  6    1               COLOR         WHITE  
 
-    1.7  Cart 
-        Schema: id | user_id | product_id | quantity           
 
- 
+    1.7  product_variants
+         Schema: id | product_id   | sku_code    |    attribute_json                          |    price     | image_url
+                  1       1         MBP8-256       {"RAM": "8GB", "Storage": "256GB SSD"}        ₹99,000       ------
+                  2       1         MBP16-512      {"RAM": "16GB", "Storage": "512GB SSD"}       ₹199,000       ------
+
+    1.8  product_inventory
+        Schema: id | product_variant_id | stock_quantity | reserved_quantity
+
+    1.9  WishList
+        Schema: id | user_id (FK) | product_id (FK) 
+
+    2.0  Orders
+        Schema: id | user_id (FK) | total_amount | status (OrderStatus) | shipping_address_id (FK) | billing_address_id (FK) | payment_method_id (FK) | created_at
+
+    2.1  Order_items
+        Schema: id | order_id (FK) | product_id (FK) | quantity | price | created_at
+
+    2.2  Reviews
+        Schema: id | product_id (fk) | user_id (FK) | rating | comment | created_at    
+
+    2.3  Carts
+        Schema: id | user_id(FK) | is_active 
+
+    2.4  Cart_items
+        Schema: id | cart_id (FK) | product_varient_id (FK) | quantity | price_at_added | added_at      
+
 
 
 1. USERS / AUTHENTICATION
+   Schema: id | name | email | hash_password | role(RoleType) | phone_no
 
     1.1  Register User
         POST /api/auth/register
@@ -96,7 +128,7 @@
         "status": "success",
         "code": 200,
         "message": "Categories retrieved",
-        "data": [ { "id": 1, "name": "Electronics", ... } ]
+        "data": [ {"name": "Electronics"},{"name": "beauty"} ]
         }
 
 3. PRODUCTS
@@ -123,14 +155,14 @@
         }
    
     3.2 Get All Products
-        GET /api/product/get-all
+        GET /api/product/get-all?page=0&size=10&sortBy=price&order=asc
 
         // Response
         {
         "status": "success",
         "code": 200,
         "message": "Product saved successfully",
-        "data": [{ "id": 1, "name": "iPhone 14", ... }]
+        "data": [{ "id": 1, "name": "iPhone 14", ... },{product}]
         }
 
     3.3 Get product by id  
@@ -144,8 +176,26 @@
         "data": { "id": 1, "name": "iPhone 14", ... }
         }
 
+    3.5 Get product with filters
+        GET /api/product?name=iphone&categoryId=1&minPrice=500&maxPrice=1500
+
+        {
+          "status": "success",
+          "code": 200,
+          "message": "Products fetched",
+          "data": [
+            {
+              "id": 1,
+              "name": "iPhone 14",
+              "price": 999.99,
+              ...
+            }
+          ]
+        }
+
     3.4 Update Product (Seller)
         PUT /api/product/update/{product_id}
+        only the seller who created this product
 
         //Request
         {
@@ -219,19 +269,56 @@
         "message": "Removed cart item",
         "data": { product_info , quantity }
         }
-           
+
 5. ORDERS
 
     5.1 Place order
-        Post /api/order/create
+        Post /api/order/checkout
 
         {
-         user_id:,
-         total_amount,
-         status:,
+         "user_id":,
+         "total_amount",
+         "status":,
+         "address": "123 Main St",
+         "paymentMode": "COD"
         }
 
-    5.2 Get my Orders with all items inside that order
+        {
+                          "status": "success",
+                          "code": 201,
+                          "message": "Order placed successfully",
+                          "data": {
+                            "orderId": 99,
+                            "totalAmount": 1500,
+                            "status": "PLACED",
+                            "items": [...]
+                          }
+        }
+
+    5.2 Cart-to-Order Checkout
+        POST /api/order/checkout
+
+        {
+        "user_id":,
+        "total_amount",
+        "status":,
+        "address": "123 Main St",
+        "paymentMode": "COD"
+        }
+
+        {
+                  "status": "success",
+                  "code": 201,
+                  "message": "Order placed successfully",
+                  "data": {
+                    "orderId": 99,
+                    "totalAmount": 1500,
+                    "status": "PLACED",
+                    "items": [...]
+                  }
+        }
+
+    5.3 Get my Orders with all items inside that order
         Get /api/order/get-all   
 
         {
@@ -241,7 +328,7 @@
                  ]
         } 
      
-    5.3 Get order by id with all items inside that order
+    5.4 Get order by id with all items inside that order
         Get /api/order/get-order/{order_id}
         only user can get only its orders
 
@@ -250,7 +337,7 @@
             total_amount,
             status
             items:[{},{},{}]
-        } 
+        }
 
 6. ORDER_ITEMS  
     

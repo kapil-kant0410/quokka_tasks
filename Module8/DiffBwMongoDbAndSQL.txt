@@ -1,0 +1,95 @@
+MongoDB its differences with MySQL and how Mongoose is used to query MongoDB
+
+-> What is MongoDB?
+
+MongoDB is a NoSQL document database. It stores data in flexible, JSON-like documents instead of tables. Each document can have different fields, nested data, and arrays, giving you a very flexible way to store and work with data.
+
+Data is stored in collections (like tables in SQL).
+Each entry is a document (like a record or row but flexible).
+Documents are stored in BSON format (binary JSON). 
+
+
+-> What is MySQL?
+
+MySQL is a traditional relational database management system (RDBMS). It stores data in tables that have a strict, predefined schema — meaning every row must have the same columns, and the data types are fixed.
+
+* Uses structured query language (SQL) to manipulate data.
+* Data is stored in tables with rows and columns.
+* Enforces relationships between tables using foreign keys.
+* Schema must be designed upfront and is hard to change later.
+
+
+-> Key Differences Between MongoDB and MySQL
+
+1. Data Structure
+
+   * MySQL: Rows and columns with strict schema.
+   * MongoDB: Documents with flexible schema (no fixed columns).
+
+2. Schema Flexibility
+
+   * MySQL: Schema is rigid; altering it can be complicated.
+   * MongoDB: Schema-less or dynamic documents can have different fields.
+
+3. Query Language
+
+   * MySQL: Uses SQL.
+   * MongoDB: Uses JSON-like query language.
+
+4. Joins
+
+   * MySQL: Supports complex joins across tables.
+   * MongoDB: Does not support traditional joins uses embedded documents or references. Aggregation framework offers some join-like operations.
+
+5. Scalability
+
+   * MySQL: Vertical scaling (scale-up).
+   * MongoDB: Horizontal scaling (scale-out via sharding).
+
+6. Transactions
+
+   * MySQL: ACID-compliant multi-statement transactions.
+   * MongoDB: Supports multi-document transactions but traditionally focuses on single document atomicity.
+
+7. Use Cases
+
+   * MySQL: Suitable for structured data and complex queries with relationships.
+   * MongoDB: Good for flexible data, rapid development hierarchical or nested data.
+
+
+-> What is Mongoose?
+
+Mongoose is a JavaScript Object Data Modeling (ODM) library for MongoDB. It is NOT MongoDB itself — rather, it is a tool that helps Node.js developers work with MongoDB in a structured way.
+
+* Adds a schema layer to MongoDB’s flexible documents.
+* Provides models and validation.
+* Makes querying simpler with a fluent API.
+* Offers middleware/hooks for pre/post processing database operations.
+
+
+->  Mongoose Query MongoDB
+
+MongoDB native queries are JSON-like objects which can become complex for large applications.
+
+Mongoose lets you:
+
+* Define a schema for your documents (like defining fields and types).
+* Create a model from the schema that acts like a class you can instantiate.
+* Use easy methods to query, create, update, and delete documents.
+
+
+-> Example: Querying with MongoDB vs. Mongoose
+
+MongoDB native query :
+
+db.collection('users').find({ age: { $gt: 25 } }).toArray((err, users) => {
+  console.log(users);
+});
+```
+
+Mongoose query:
+
+User.find({ age: { $gt: 25 } }).then(users => {
+  console.log(users);
+});
+
